@@ -89,11 +89,11 @@ with `cd addons/dual_screen/android/plugin_src && ./gradlew copyToAddon`.
 ## Launcher and examples
 
 `scenes/home/` lists every `ExampleEntry` in `data/examples/` (title and description keys, category, scene, order).
-Each example is one folder in `examples/`:
+Each example is one folder in `examples/`. Full games built on the addon live in their own repos: `hanzi-cards`
+(flash cards with Anki import) and `dm-dice` (dice and timers for the game master).
 
 | Example | Shows |
 |---|---|
-| `hanzi_cards` | flash cards: tap to turn, flick up across the hinge = known, down = again; Leitner boxes, saved |
 | `hello_dual` | the smallest DualScene, no script |
 | `input_test` | touch dots on both screens, gamepad, accelerometer / gyroscope / gravity, vibration |
 | `throw_gap` | physical world: flick a ball across the real hinge gap, peak height and crossing time |
@@ -108,8 +108,6 @@ Each example is one folder in `examples/`:
 
 | Tool | What |
 |---|---|
-| `tools/make_hanzi_deck.gd` | `data/hanzi/*.tsv` to `.tres` decks |
-| `tools/subset_fonts.py` | cuts the CJK fonts to the decks' characters (`uv run --with fonttools --with brotli`) |
 | `addons/dual_screen/tools/screenshot.gd` | renders a scene in the stacked layout to PNG (needs a display): `--scene= --out= --frames= --press=` |
 
 ## Tests
