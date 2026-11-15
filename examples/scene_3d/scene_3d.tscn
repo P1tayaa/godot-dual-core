@@ -1,0 +1,117 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://examples/scene_3d/scene_3d.gd" id="2_script"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.106, 0.118, 0.169, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.5, 0.5, 0.6, 1)
+ambient_light_energy = 0.5
+fog_enabled = true
+fog_light_color = Color(0.106, 0.118, 0.169, 1)
+fog_density = 0.03
+
+[sub_resource type="StandardMaterial3D" id="ground_mat"]
+albedo_color = Color(0.2, 0.22, 0.31, 1)
+
+[sub_resource type="PlaneMesh" id="ground"]
+material = SubResource("ground_mat")
+size = Vector2(60, 60)
+
+[node name="Scene3D" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+bottom_redraw = 1
+
+[node name="TopViewport" parent="TopContainer" index="0"]
+own_world_3d = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="TopContainer/TopViewport" index="0"]
+environment = SubResource("env")
+
+[node name="Camera" type="Camera3D" parent="TopContainer/TopViewport" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.819, 0.574, 0, -0.574, 0.819, 0, 7, 10)
+fov = 55.0
+
+[node name="Sun" type="DirectionalLight3D" parent="TopContainer/TopViewport" index="2"]
+unique_name_in_owner = true
+transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="TopContainer/TopViewport" index="3"]
+mesh = SubResource("ground")
+
+[node name="Objects" type="Node3D" parent="TopContainer/TopViewport" index="4"]
+unique_name_in_owner = true
+
+[node name="BottomBg" type="ColorRect" parent="BottomContainer/BottomViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.169, 0.106, 0.118, 1)
+
+[node name="Column" type="VBoxContainer" parent="BottomContainer/BottomViewport" index="1"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = -8.0
+offset_bottom = -6.0
+
+[node name="Count" type="Label" parent="BottomContainer/BottomViewport/Column" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="Draws" type="Label" parent="BottomContainer/BottomViewport/Column" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Fps" type="Label" parent="BottomContainer/BottomViewport/Column" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CountRow" type="HBoxContainer" parent="BottomContainer/BottomViewport/Column" index="3"]
+layout_mode = 2
+
+[node name="Less" type="Button" parent="BottomContainer/BottomViewport/Column/CountRow" index="0"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "-"
+
+[node name="More" type="Button" parent="BottomContainer/BottomViewport/Column/CountRow" index="1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "+"
+
+[node name="ToggleRow" type="HBoxContainer" parent="BottomContainer/BottomViewport/Column" index="4"]
+layout_mode = 2
+
+[node name="Shadows" type="Button" parent="BottomContainer/BottomViewport/Column/ToggleRow" index="0"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Spin" type="Button" parent="BottomContainer/BottomViewport/Column/ToggleRow" index="1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MultiMeshToggle" type="Button" parent="BottomContainer/BottomViewport/Column" index="5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="StatsTimer" type="Timer" parent="." index="2"]
+unique_name_in_owner = true
+autostart = true

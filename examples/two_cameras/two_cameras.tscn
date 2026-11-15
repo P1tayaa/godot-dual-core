@@ -1,0 +1,130 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://examples/two_cameras/two_cameras.gd" id="2_script"]
+[ext_resource type="Script" path="res://ui/components/fps_label.gd" id="3_fps"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.106, 0.118, 0.169, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.5, 0.5, 0.6, 1)
+ambient_light_energy = 0.6
+
+[sub_resource type="StandardMaterial3D" id="ground_mat"]
+albedo_color = Color(0.2, 0.3, 0.22, 1)
+
+[sub_resource type="PlaneMesh" id="ground"]
+material = SubResource("ground_mat")
+size = Vector2(60, 60)
+
+[sub_resource type="StandardMaterial3D" id="crate_mat"]
+albedo_color = Color(0.45, 0.32, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="crate"]
+material = SubResource("crate_mat")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="robot_mat"]
+albedo_color = Color(1, 0.706, 0.329, 1)
+
+[sub_resource type="CapsuleMesh" id="robot_body"]
+material = SubResource("robot_mat")
+
+[sub_resource type="StandardMaterial3D" id="nose_mat"]
+albedo_color = Color(0.2, 0.2, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="robot_nose"]
+material = SubResource("nose_mat")
+size = Vector3(0.3, 0.3, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="marker_mat"]
+albedo_color = Color(0.4, 0.8, 1, 1)
+emission_enabled = true
+emission = Color(0.2, 0.5, 0.8, 1)
+
+[sub_resource type="CylinderMesh" id="marker"]
+material = SubResource("marker_mat")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.1
+
+[node name="TwoCameras" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+
+[node name="TopViewport" parent="TopContainer" index="0"]
+own_world_3d = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="TopContainer/TopViewport" index="0"]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="TopContainer/TopViewport" index="1"]
+transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="TopContainer/TopViewport" index="2"]
+mesh = SubResource("ground")
+
+[node name="Crate1" type="MeshInstance3D" parent="TopContainer/TopViewport" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, -4)
+mesh = SubResource("crate")
+
+[node name="Crate2" type="MeshInstance3D" parent="TopContainer/TopViewport" index="4"]
+transform = Transform3D(0.707, 0, 0.707, 0, 1, 0, -0.707, 0, 0.707, -7, 1, 3)
+mesh = SubResource("crate")
+
+[node name="Crate3" type="MeshInstance3D" parent="TopContainer/TopViewport" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 9)
+mesh = SubResource("crate")
+
+[node name="Crate4" type="MeshInstance3D" parent="TopContainer/TopViewport" index="6"]
+transform = Transform3D(0.866, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866, -4, 1, -10)
+mesh = SubResource("crate")
+
+[node name="Robot" type="Node3D" parent="TopContainer/TopViewport" index="7"]
+unique_name_in_owner = true
+
+[node name="Body" type="MeshInstance3D" parent="TopContainer/TopViewport/Robot" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("robot_body")
+
+[node name="Nose" type="MeshInstance3D" parent="TopContainer/TopViewport/Robot" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -0.6)
+mesh = SubResource("robot_nose")
+
+[node name="Marker" type="MeshInstance3D" parent="TopContainer/TopViewport" index="8"]
+unique_name_in_owner = true
+mesh = SubResource("marker")
+
+[node name="ChaseCamera" type="Camera3D" parent="TopContainer/TopViewport" index="9"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.868, 0.496, 0, -0.496, 0.868, 0, 4, 7)
+current = true
+
+[node name="Fps" type="Label" parent="TopContainer/TopViewport" index="10"]
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 80.0
+offset_bottom = 18.0
+script = ExtResource("3_fps")
+
+[node name="MapCamera" type="Camera3D" parent="BottomContainer/BottomViewport" index="0"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 30, 0)
+projection = 1
+current = true
+size = 30.0
+
+[node name="MapTouch" type="Control" parent="BottomContainer/BottomViewport" index="1"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Hint" type="Label" parent="BottomContainer/BottomViewport" index="2"]
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 316.0
+offset_bottom = 18.0
+mouse_filter = 2
+text = "TWO_CAM_HINT"

@@ -1,0 +1,140 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://examples/dice_3d/dice_3d.gd" id="2_script"]
+[ext_resource type="Script" path="res://ui/components/fps_label.gd" id="3_fps"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.106, 0.118, 0.169, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.55, 0.65, 1)
+ambient_light_energy = 0.6
+
+[sub_resource type="BoxShape3D" id="floor_shape"]
+size = Vector3(8, 1, 6)
+
+[sub_resource type="StandardMaterial3D" id="felt"]
+albedo_color = Color(0.13, 0.32, 0.22, 1)
+
+[sub_resource type="BoxMesh" id="floor_mesh"]
+material = SubResource("felt")
+size = Vector3(8, 1, 6)
+
+[sub_resource type="BoxShape3D" id="wall_x"]
+size = Vector3(0.5, 3, 6)
+
+[sub_resource type="BoxShape3D" id="wall_z"]
+size = Vector3(8, 3, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="wood"]
+albedo_color = Color(0.4, 0.25, 0.15, 1)
+
+[sub_resource type="BoxMesh" id="wall_z_mesh"]
+material = SubResource("wood")
+size = Vector3(8, 0.6, 0.5)
+
+[node name="Dice3D" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+
+[node name="TopViewport" parent="TopContainer" index="0"]
+own_world_3d = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="TopContainer/TopViewport" index="0"]
+environment = SubResource("env")
+
+[node name="Camera" type="Camera3D" parent="TopContainer/TopViewport" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866, 0, -0.866, 0.5, 0, 7.5, 4.5)
+fov = 50.0
+
+[node name="Sun" type="DirectionalLight3D" parent="TopContainer/TopViewport" index="2"]
+transform = Transform3D(0.866, -0.25, 0.433, 0, 0.866, 0.5, -0.5, -0.433, 0.75, 0, 5, 0)
+shadow_enabled = true
+
+[node name="Tray" type="Node3D" parent="TopContainer/TopViewport" index="3"]
+unique_name_in_owner = true
+
+[node name="Floor" type="StaticBody3D" parent="TopContainer/TopViewport/Tray" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="TopContainer/TopViewport/Tray/Floor" index="0"]
+shape = SubResource("floor_shape")
+
+[node name="Mesh" type="MeshInstance3D" parent="TopContainer/TopViewport/Tray/Floor" index="1"]
+mesh = SubResource("floor_mesh")
+
+[node name="Walls" type="StaticBody3D" parent="TopContainer/TopViewport/Tray" index="1"]
+
+[node name="Left" type="CollisionShape3D" parent="TopContainer/TopViewport/Tray/Walls" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25, 1.5, 0)
+shape = SubResource("wall_x")
+
+[node name="Right" type="CollisionShape3D" parent="TopContainer/TopViewport/Tray/Walls" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25, 1.5, 0)
+shape = SubResource("wall_x")
+
+[node name="Back" type="CollisionShape3D" parent="TopContainer/TopViewport/Tray/Walls" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -3.25)
+shape = SubResource("wall_z")
+
+[node name="Front" type="CollisionShape3D" parent="TopContainer/TopViewport/Tray/Walls" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 3.25)
+shape = SubResource("wall_z")
+
+[node name="BackRim" type="MeshInstance3D" parent="TopContainer/TopViewport/Tray/Walls" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -3.25)
+mesh = SubResource("wall_z_mesh")
+
+[node name="Fps" type="Label" parent="TopContainer/TopViewport" index="4"]
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 80.0
+offset_bottom = 18.0
+script = ExtResource("3_fps")
+
+[node name="BottomBg" type="ColorRect" parent="BottomContainer/BottomViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.169, 0.106, 0.118, 1)
+
+[node name="FlickArea" type="Control" parent="BottomContainer/BottomViewport" index="1"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Column" type="VBoxContainer" parent="BottomContainer/BottomViewport" index="2"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = -8.0
+offset_bottom = -6.0
+mouse_filter = 2
+
+[node name="Result" type="Label" parent="BottomContainer/BottomViewport/Column" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+
+[node name="History" type="Label" parent="BottomContainer/BottomViewport/Column" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="BottomContainer/BottomViewport/Column" index="2"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.541, 0.561, 0.639, 1)
+text = "DICE_HINT"
+horizontal_alignment = 1
+
+[node name="RollButton" type="Button" parent="BottomContainer/BottomViewport/Column" index="3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+text = "COMMON_ROLL"

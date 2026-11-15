@@ -1,0 +1,106 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://examples/hunter/hunter.gd" id="2_script"]
+[ext_resource type="Script" path="res://examples/hunter/hunter_radar.gd" id="3_radar"]
+[ext_resource type="Script" path="res://ui/components/fps_label.gd" id="4_fps"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.05, 0.06, 0.1, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.4, 0.45, 0.6, 1)
+ambient_light_energy = 0.6
+fog_enabled = true
+fog_light_color = Color(0.05, 0.06, 0.1, 1)
+fog_density = 0.05
+
+[sub_resource type="StandardMaterial3D" id="floor_mat"]
+albedo_color = Color(0.16, 0.17, 0.24, 1)
+
+[sub_resource type="PlaneMesh" id="floor"]
+material = SubResource("floor_mat")
+size = Vector2(40, 40)
+
+[node name="Hunter" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+
+[node name="TopViewport" parent="TopContainer" index="0"]
+own_world_3d = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="TopContainer/TopViewport" index="0"]
+environment = SubResource("env")
+
+[node name="Light" type="DirectionalLight3D" parent="TopContainer/TopViewport" index="1"]
+transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 0, 10, 0)
+
+[node name="World" type="Node3D" parent="TopContainer/TopViewport" index="2"]
+unique_name_in_owner = true
+
+[node name="Floor" type="MeshInstance3D" parent="TopContainer/TopViewport/World" index="0"]
+mesh = SubResource("floor")
+
+[node name="Player" type="Node3D" parent="TopContainer/TopViewport" index="3"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="Camera" type="Camera3D" parent="TopContainer/TopViewport/Player" index="0"]
+unique_name_in_owner = true
+fov = 70.0
+
+[node name="Crosshair" type="Label" parent="TopContainer/TopViewport" index="4"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_colors/font_color = Color(1, 0.706, 0.329, 1)
+text = "+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fps" type="Label" parent="TopContainer/TopViewport" index="5"]
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 80.0
+offset_bottom = 18.0
+script = ExtResource("4_fps")
+
+[node name="BottomBg" type="ColorRect" parent="BottomContainer/BottomViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.04, 0.08, 0.06, 1)
+
+[node name="Radar" type="Control" parent="BottomContainer/BottomViewport" index="1"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("3_radar")
+
+[node name="Score" type="Label" parent="BottomContainer/BottomViewport" index="2"]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 200.0
+offset_bottom = 18.0
+mouse_filter = 2
+
+[node name="Hint" type="Label" parent="BottomContainer/BottomViewport" index="3"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -18.0
+offset_right = 316.0
+offset_bottom = -2.0
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.541, 0.561, 0.639, 1)
+text = "HUNTER_HINT"

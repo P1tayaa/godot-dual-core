@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+
+[node name="HelloDual" instance=ExtResource("1_base")]
+top_redraw = 1
+bottom_redraw = 1
+
+[node name="TopBg" type="ColorRect" parent="TopContainer/TopViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.106, 0.118, 0.169, 1)
+
+[node name="TopLabel" type="Label" parent="TopContainer/TopViewport" index="1"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_font_sizes/font_size = 24
+text = "HELLO_TOP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BottomBg" type="ColorRect" parent="BottomContainer/BottomViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.169, 0.106, 0.118, 1)
+
+[node name="BottomColumn" type="VBoxContainer" parent="BottomContainer/BottomViewport" index="1"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="BottomLabel" type="Label" parent="BottomContainer/BottomViewport/BottomColumn" index="0"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "HELLO_BOTTOM"
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="BottomContainer/BottomViewport/BottomColumn" index="1"]
+layout_mode = 2
+text = "HELLO_HINT"
+horizontal_alignment = 1

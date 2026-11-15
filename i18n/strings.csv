@@ -31,3 +31,40 @@ EX_SPRITE_STRESS_TITLE,Sprite stress,Charge sprites
 EX_SPRITE_STRESS_DESC,"Moving sprites on both screens. Switch the second screen transport and the redraw mode, read fps per screen.","Des sprites sur les deux écrans. Change le transport du second écran et le mode de rendu, lis les fps par écran."
 EX_DEVICE_SETTINGS_TITLE,Device settings,Réglages de la console
 EX_DEVICE_SETTINGS_DESC,"Pick the device and line the screens up: move the lines until they continue straight across the hinge.","Choisis la console et aligne les écrans : bouge les lignes jusqu'à ce qu'elles continuent droit à travers la charnière."
+FPS_LABEL,%d fps,%d fps
+HELLO_TOP,Top screen 上,Écran du haut 上
+HELLO_BOTTOM,Bottom screen 下,Écran du bas 下
+HELLO_HINT,Q / Select: swap.   H / Start: home.,Q / Select : échanger.   H / Start : accueil.
+INPUT_TOUCHES,Touches: %d,Contacts : %d
+INPUT_GAMEPAD,"Pad: %s",Manette : %s
+INPUT_AXES,"Sticks: %s",Sticks : %s
+INPUT_SENSORS,"Accel %s\nGyro %s\nGravity %s","Accél %s\nGyro %s\nGravité %s"
+INPUT_VIBRATE,Vibrate,Vibrer
+COMMON_RESET,Reset,Réinitialiser
+COMMON_ROLL,Roll,Lancer
+COMMON_SAVE,Save,Enregistrer
+THROW_TILT,Tilt: %s,Inclinaison : %s
+THROW_INFO,"Gap %.1f mm. Last crossing: %d ms","Écart %.1f mm. Dernière traversée : %d ms"
+THROW_HINT,"Grab the ball on either screen, flick it.","Attrape la balle sur un écran, lance-la."
+DICE_RESULT,%d,%d
+DICE_HISTORY,Last: %s,Derniers : %s
+DICE_HINT,"Flick here, press A, or shake.","Glisse ici, appuie sur A, ou secoue."
+DICE_ROLLING,Rolling...,Ça roule...
+SCENE3D_COUNT,Objects: %d,Objets : %d
+SCENE3D_DRAWS,Draw calls: %d,Appels de rendu : %d
+SCENE3D_SHADOWS,Shadows: %s,Ombres : %s
+SCENE3D_SPIN,Spin: %s,Rotation : %s
+SCENE3D_MULTIMESH,MultiMesh: %s,MultiMesh : %s
+HUNTER_SCORE,Targets: %d / %d,Cibles : %d / %d
+HUNTER_HINT,"Drag: aim. Tap or A: fire.","Glisse : viser. Touche ou A : tirer."
+TWO_CAM_HINT,Tap the map to move the robot.,Touche la carte pour déplacer le robot.
+SHADER_LEVEL,"Top work %d, bottom work %d","Travail haut %d, bas %d"
+SHADER_TOP_LESS,Top -,Haut -
+SHADER_TOP_MORE,Top +,Haut +
+SHADER_BOTTOM_LESS,Bottom -,Bas -
+SHADER_BOTTOM_MORE,Bottom +,Bas +
+SETTINGS_HELP,"Open the device flat. Change the gap until the blue lines run straight across the hinge.","Ouvre la console à plat. Règle l'écart jusqu'à ce que les lignes bleues traversent la charnière tout droit."
+SETTINGS_DEVICE,Device: %s,Console : %s
+SETTINGS_GAP,Gap: %.1f mm,Écart : %.1f mm
+SETTINGS_OFFSET,Offset: %.1f mm,Décalage : %.1f mm
+SETTINGS_SAVED,Saved.,Enregistré.

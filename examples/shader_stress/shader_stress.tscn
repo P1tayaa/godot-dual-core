@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://examples/shader_stress/shader_stress.gd" id="2_script"]
+[ext_resource type="Shader" path="res://examples/shader_stress/fractal.gdshader" id="3_shader"]
+[ext_resource type="Script" path="res://ui/components/fps_label.gd" id="4_fps"]
+
+[sub_resource type="ShaderMaterial" id="top_mat"]
+shader = ExtResource("3_shader")
+shader_parameter/iterations = 16
+shader_parameter/hue_shift = 0.0
+
+[sub_resource type="ShaderMaterial" id="bottom_mat"]
+shader = ExtResource("3_shader")
+shader_parameter/iterations = 16
+shader_parameter/hue_shift = 0.5
+
+[node name="ShaderStress" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+
+[node name="TopFractal" type="ColorRect" parent="TopContainer/TopViewport" index="0"]
+unique_name_in_owner = true
+material = SubResource("top_mat")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Fps" type="Label" parent="TopContainer/TopViewport" index="1"]
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 80.0
+offset_bottom = 18.0
+script = ExtResource("4_fps")
+
+[node name="BottomFractal" type="ColorRect" parent="BottomContainer/BottomViewport" index="0"]
+unique_name_in_owner = true
+material = SubResource("bottom_mat")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="BottomContainer/BottomViewport" index="1"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -76.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_vertical = 0
+
+[node name="Column" type="VBoxContainer" parent="BottomContainer/BottomViewport/Panel" index="0"]
+layout_mode = 2
+
+[node name="Levels" type="Label" parent="BottomContainer/BottomViewport/Panel/Column" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TopRow" type="HBoxContainer" parent="BottomContainer/BottomViewport/Panel/Column" index="1"]
+layout_mode = 2
+
+[node name="TopLess" type="Button" parent="BottomContainer/BottomViewport/Panel/Column/TopRow" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SHADER_TOP_LESS"
+
+[node name="TopMore" type="Button" parent="BottomContainer/BottomViewport/Panel/Column/TopRow" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SHADER_TOP_MORE"
+
+[node name="BottomRow" type="HBoxContainer" parent="BottomContainer/BottomViewport/Panel/Column" index="2"]
+layout_mode = 2
+
+[node name="BottomLess" type="Button" parent="BottomContainer/BottomViewport/Panel/Column/BottomRow" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SHADER_BOTTOM_LESS"
+
+[node name="BottomMore" type="Button" parent="BottomContainer/BottomViewport/Panel/Column/BottomRow" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SHADER_BOTTOM_MORE"

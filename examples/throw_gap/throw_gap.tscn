@@ -1,0 +1,79 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://examples/throw_gap/throw_gap.gd" id="2_script"]
+[ext_resource type="Script" path="res://ui/components/fps_label.gd" id="3_fps"]
+
+[node name="ThrowGap" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+
+[node name="World" type="Node2D" parent="TopContainer/TopViewport" index="0"]
+unique_name_in_owner = true
+
+[node name="TopUi" type="CanvasLayer" parent="TopContainer/TopViewport" index="1"]
+
+[node name="TopTouch" type="Control" parent="TopContainer/TopViewport/TopUi" index="0"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Info" type="Label" parent="TopContainer/TopViewport/TopUi" index="1"]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 316.0
+offset_bottom = 18.0
+mouse_filter = 2
+
+[node name="Fps" type="Label" parent="TopContainer/TopViewport/TopUi" index="2"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_top = 2.0
+offset_right = -4.0
+offset_bottom = 18.0
+grow_horizontal = 0
+mouse_filter = 2
+horizontal_alignment = 2
+script = ExtResource("3_fps")
+
+[node name="BottomUi" type="CanvasLayer" parent="BottomContainer/BottomViewport" index="0"]
+
+[node name="BottomTouch" type="Control" parent="BottomContainer/BottomViewport/BottomUi" index="0"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Hint" type="Label" parent="BottomContainer/BottomViewport/BottomUi" index="1"]
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 316.0
+offset_bottom = 18.0
+mouse_filter = 2
+text = "THROW_HINT"
+
+[node name="Buttons" type="HBoxContainer" parent="BottomContainer/BottomViewport/BottomUi" index="2"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -26.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+alignment = 2
+
+[node name="TiltButton" type="Button" parent="BottomContainer/BottomViewport/BottomUi/Buttons" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="BottomContainer/BottomViewport/BottomUi/Buttons" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COMMON_RESET"

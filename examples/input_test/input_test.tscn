@@ -1,0 +1,90 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://examples/input_test/input_test.gd" id="2_script"]
+[ext_resource type="Script" path="res://examples/input_test/touch_canvas.gd" id="3_canvas"]
+[ext_resource type="Script" path="res://ui/components/fps_label.gd" id="4_fps"]
+
+[node name="InputTest" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+
+[node name="TopBg" type="ColorRect" parent="TopContainer/TopViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.106, 0.118, 0.169, 1)
+
+[node name="TopInfo" type="VBoxContainer" parent="TopContainer/TopViewport" index="1"]
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 314.0
+offset_bottom = 120.0
+mouse_filter = 2
+
+[node name="TopTouches" type="Label" parent="TopContainer/TopViewport/TopInfo" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Gamepad" type="Label" parent="TopContainer/TopViewport/TopInfo" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Sticks" type="Label" parent="TopContainer/TopViewport/TopInfo" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Fps" type="Label" parent="TopContainer/TopViewport/TopInfo" index="3"]
+layout_mode = 2
+script = ExtResource("4_fps")
+
+[node name="TopCanvas" type="Control" parent="TopContainer/TopViewport" index="2"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("3_canvas")
+
+[node name="BottomBg" type="ColorRect" parent="BottomContainer/BottomViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.169, 0.106, 0.118, 1)
+
+[node name="BottomInfo" type="VBoxContainer" parent="BottomContainer/BottomViewport" index="1"]
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 314.0
+offset_bottom = 120.0
+mouse_filter = 2
+
+[node name="BottomTouches" type="Label" parent="BottomContainer/BottomViewport/BottomInfo" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Sensors" type="Label" parent="BottomContainer/BottomViewport/BottomInfo" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="BottomCanvas" type="Control" parent="BottomContainer/BottomViewport" index="2"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("3_canvas")
+
+[node name="Vibrate" type="Button" parent="BottomContainer/BottomViewport" index="3"]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -30.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "INPUT_VIBRATE"
