@@ -4,6 +4,9 @@ extends VBoxContainer
 ## Put top content under %TopViewport and bottom content under %BottomViewport. `Screens` decides where each one
 ## is shown (stacked in one window, two desktop windows, or the two displays of a handheld).
 
+## An ON_CHANGE screen will draw one more frame (the Android second display uses it to know when to copy).
+signal redraw_requested(screen: Screen)
+
 enum Screen { TOP, BOTTOM }
 ## ALWAYS redraws every frame. ON_CHANGE redraws only after input or `request_redraw()`: a static screen costs nothing.
 enum Redraw { ALWAYS, ON_CHANGE }
@@ -45,6 +48,17 @@ func redraw_mode(screen: Screen) -> Redraw:
 func request_redraw(screen: Screen) -> void:
 	if redraw_mode(screen) == Redraw.ON_CHANGE:
 		viewport(screen).render_target_update_mode = SubViewport.UPDATE_ONCE
+		redraw_requested.emit(screen)
+
+
+## Changes a screen's redraw mode at run time.
+func set_redraw(screen: Screen, mode: Redraw) -> void:
+	if screen == Screen.TOP:
+		top_redraw = mode
+	else:
+		bottom_redraw = mode
+	viewport(screen).render_target_update_mode = _update_mode(mode)
+	redraw_requested.emit(screen)
 
 
 ## Stacked layout only: puts the bottom screen first when swapped.
@@ -57,6 +71,11 @@ func set_stacked_order(swapped: bool) -> void:
 func set_external(external: bool) -> void:
 	top_container.visible = not external
 	bottom_container.visible = not external
+	# The scene root covers the window: let touch through to the presenter drawn under it.
+	mouse_filter = Control.MOUSE_FILTER_IGNORE if external else Control.MOUSE_FILTER_PASS
+	# A container sets its viewport to UPDATE_DISABLED when hidden (ALWAYS when shown): put our modes back.
+	top_viewport.render_target_update_mode = _update_mode(top_redraw)
+	bottom_viewport.render_target_update_mode = _update_mode(bottom_redraw)
 
 
 func _input(event: InputEvent) -> void:

@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://tools/bench/bench.gd" id="2_bench"]
+
+[node name="Bench" instance=ExtResource("1_base")]
+script = ExtResource("2_bench")
+
+[node name="SecondTimer" type="Timer" parent="." index="2"]
+unique_name_in_owner = true
+autostart = true
+
+[node name="TopBg" type="ColorRect" parent="TopContainer/TopViewport" index="0"]
+offset_right = 320.0
+offset_bottom = 240.0
+color = Color(0.106, 0.118, 0.169, 1)
+
+[node name="TopSprites" type="Node2D" parent="TopContainer/TopViewport" index="1"]
+unique_name_in_owner = true
+
+[node name="TopLabel" type="Label" parent="TopContainer/TopViewport" index="2"]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 316.0
+offset_bottom = 18.0
+text = "TOP"
+
+[node name="BottomBg" type="ColorRect" parent="BottomContainer/BottomViewport" index="0"]
+offset_right = 320.0
+offset_bottom = 240.0
+color = Color(0.169, 0.106, 0.118, 1)
+
+[node name="BottomSprites" type="Node2D" parent="BottomContainer/BottomViewport" index="1"]
+unique_name_in_owner = true
+
+[node name="TouchArea" type="Control" parent="BottomContainer/BottomViewport" index="2"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 320.0
+offset_bottom = 240.0
+
+[node name="TouchDot" type="ColorRect" parent="BottomContainer/BottomViewport" index="3"]
+unique_name_in_owner = true
+offset_right = 8.0
+offset_bottom = 8.0
+mouse_filter = 2
+
+[node name="BottomLabel" type="Label" parent="BottomContainer/BottomViewport" index="4"]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 2.0
+offset_right = 316.0
+offset_bottom = 18.0
+text = "BOTTOM"
+
+[node name="Buttons" type="HBoxContainer" parent="BottomContainer/BottomViewport" index="5"]
+offset_left = 4.0
+offset_top = 208.0
+offset_right = 316.0
+offset_bottom = 236.0
+
+[node name="TransportButton" type="Button" parent="BottomContainer/BottomViewport/Buttons" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "T"
+
+[node name="RedrawButton" type="Button" parent="BottomContainer/BottomViewport/Buttons" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "R"

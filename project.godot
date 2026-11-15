@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Godot Dual Core"
 config/description="Dual-screen core for Godot 4: two screens, one scene, fast on weak Android handhelds."
-run/main_scene="res://scenes/home/home.tscn"
+run/main_scene="res://tools/bench/bench.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
@@ -33,7 +33,12 @@ window/handheld/orientation=0
 
 screen/base_size=Vector2i(320, 240)
 screen/mode="auto"
-screen/main_display_is_top=true
+screen/main_display_is_top=false
+android/transport="gl"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dual_screen_android/plugin.cfg")
 
 [gui]
 
@@ -62,5 +67,6 @@ locale/translations=PackedStringArray("res://i18n/strings.en.translation", "res:
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true

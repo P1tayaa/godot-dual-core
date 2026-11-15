@@ -31,14 +31,28 @@ func test_on_change_screen_redraws_on_request() -> void:
 	eq(scene.bottom_viewport.render_target_update_mode, SubViewport.UPDATE_ONCE, "bottom redraws once")
 
 
+func test_external_screens_keep_rendering() -> void:
+	var scene: DualScene = FIXTURE.instantiate() as DualScene
+	scene.bottom_redraw = DualScene.Redraw.ON_CHANGE
+	tree.root.add_child(scene)
+	_nodes.append(scene)
+	await frames(1)
+	scene.set_external(true)
+	eq(scene.top_viewport.render_target_update_mode, SubViewport.UPDATE_ALWAYS, "top still ALWAYS when hidden")
+	eq(scene.bottom_viewport.render_target_update_mode, SubViewport.UPDATE_ONCE, "bottom redraws once when hidden")
+	eq(scene.mouse_filter, Control.MOUSE_FILTER_IGNORE, "scene lets touch through to presenters")
+	scene.set_external(false)
+
+
 func test_swap_action_reorders_stacked_screens() -> void:
 	var scene: DualScene = add_scene(FIXTURE) as DualScene
 	await frames(1)
 	eq(scene.get_child(0), scene.top_container, "top first")
+	var main_before: DualScene.Screen = Screens.main_screen()
 	await press(&"swap_screens")
 	ok(Screens.swapped, "swapped after action")
 	eq(scene.get_child(0), scene.bottom_container, "bottom first when swapped")
-	eq(Screens.main_screen(), DualScene.Screen.BOTTOM, "main surface shows bottom")
+	ok(Screens.main_screen() != main_before, "main surface shows the other screen")
 	await press(&"swap_screens")
 	eq(scene.get_child(0), scene.top_container, "top first again")
 
