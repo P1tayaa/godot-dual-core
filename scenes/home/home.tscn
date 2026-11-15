@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="PackedScene" path="res://addons/dual_screen/dual_scene/dual_scene.tscn" id="1_base"]
 [ext_resource type="Script" path="res://scenes/home/home.gd" id="2_home"]
 
 [node name="Home" instance=ExtResource("1_base")]

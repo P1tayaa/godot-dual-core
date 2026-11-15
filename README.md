@@ -3,8 +3,11 @@
 Starting point for dual-screen tools and games in Godot 4.7: one scene, two screens, on dual-screen Android handhelds
 (Anbernic RG DS, AYN Thor), on desktop (two windows) and stacked in one window everywhere else.
 
-Read `docs/PHILOSOPHY.md`, `docs/CONVENTIONS.md` and `docs/ARCHITECTURE.md` first. Decisions and measurements are in
-`docs/DECISIONS.md`. To start a new project from this core, see `docs/FORKING.md`.
+The core is the `addons/dual_screen` submodule (repo `godot-dual-screen`); this project holds the examples and tests.
+Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after cloning.
+
+Read `addons/dual_screen/docs/PHILOSOPHY.md`, `addons/dual_screen/docs/CONVENTIONS.md` and `docs/ARCHITECTURE.md`
+first. Decisions and measurements are in `docs/DECISIONS.md`. New game on the core: `docs/NEW_GAME.md`.
 
 ## Requirements
 
@@ -25,13 +28,13 @@ Keys: arrows / Z / X for menus, Q (Select) swaps the screens, H (Start) goes bac
 
 ```bash
 "$GODOT_PATH" --headless --path . --import                            # after adding a class_name or a CSV key
-"$GODOT_PATH" --headless --path . --script res://tests/run_tests.gd   # all tests
+"$GODOT_PATH" --headless --path . --script res://addons/dual_screen/testing/run_tests.gd   # all tests
 ```
 
 ## Android build
 
 ```bash
-cd android/plugin && ./gradlew copyToAddon && cd ../..                # only after changing the Kotlin plugin
+(cd addons/dual_screen/android/plugin_src && ./gradlew copyToAddon)   # only after changing the Kotlin plugin
 export JAVA_HOME=/usr/lib/jvm/java-21-openjdk ANDROID_HOME=~/Android/Sdk
 "$GODOT_PATH" --headless --path . --export-debug "Android" exports/dual-core.apk
 adb install -r exports/dual-core.apk
@@ -41,7 +44,7 @@ adb exec-out screencap -d 0 -p > bottom.png                           # screensh
 
 ## Add a device
 
-Copy `data/devices/rg_ds.tres`, fill in both screens (pixels, millimetres, base size), the gap, which display the
+Copy `addons/dual_screen/profiles/devices/rg_ds.tres`, fill in both screens (pixels, millimetres, base size), the gap, which display the
 app starts on and the model name `OS.get_model_name()` reports. Then fine-tune gap and offset on the device in
 Device settings and save.
 

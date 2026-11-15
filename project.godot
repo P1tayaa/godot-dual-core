@@ -17,7 +17,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
 
-Screens="*res://autoload/screens.gd"
+Screens="*res://addons/dual_screen/screens.gd"
 
 [display]
 
@@ -31,18 +31,18 @@ window/stretch/scale_mode="integer"
 [dual_screen]
 
 screen/mode="auto"
-default_profile="res://data/devices/rg_ds.tres"
+default_profile="res://addons/dual_screen/profiles/devices/rg_ds.tres"
 home_scene="res://scenes/home/home.tscn"
 android/transport="gl"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dual_screen_android/plugin.cfg")
+enabled=PackedStringArray("res://addons/dual_screen/plugin.cfg")
 
 [gui]
 
 theme/default_font_subpixel_positioning=0
-theme/custom="res://ui/theme/main_theme.tres"
+theme/custom="res://addons/dual_screen/theme/main_theme.tres"
 
 [input]
 
@@ -74,7 +74,7 @@ pointing/emulate_touch_from_mouse=true
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://i18n/strings.en.translation", "res://i18n/strings.fr.translation")
+locale/translations=PackedStringArray("res://i18n/strings.en.translation", "res://i18n/strings.fr.translation", "res://addons/dual_screen/i18n/dual_screen.en.translation", "res://addons/dual_screen/i18n/dual_screen.fr.translation")
 
 [rendering]
 

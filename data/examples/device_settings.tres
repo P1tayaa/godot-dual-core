@@ -7,5 +7,5 @@ script = ExtResource("1_entry")
 title_key = "EX_DEVICE_SETTINGS_TITLE"
 description_key = "EX_DEVICE_SETTINGS_DESC"
 category = 5
-scene = "res://scenes/settings/device_settings.tscn"
+scene = "res://addons/dual_screen/settings/device_settings.tscn"
 order = 100

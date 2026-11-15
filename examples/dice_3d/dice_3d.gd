@@ -20,7 +20,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 @onready var _result: Label = %Result
 @onready var _history_label: Label = %History
-@onready var _font: Font = load("res://assets/fonts/fusion_pixel/fusion-pixel-12px-proportional-zh_hans.ttf.woff2")
+@onready var _font: Font = load("res://addons/dual_screen/theme/fonts/fusion_pixel/fusion-pixel-12px-proportional-zh_hans.ttf.woff2")
 
 
 func _ready() -> void:

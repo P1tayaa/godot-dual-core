@@ -1,9 +1,12 @@
 # Architecture
 
+The core lives in the `addons/dual_screen` submodule (repo `godot-dual-screen`). This project is its examples and
+tests. Paths below are relative to this project.
+
 ## Two screens, one scene
 
 ```
-DualScene (VBoxContainer)              every screen scene inherits core/dual_scene/dual_scene.tscn
+DualScene (VBoxContainer)              every screen scene inherits addons/dual_screen/dual_scene/dual_scene.tscn
 ├── TopContainer (SubViewportContainer)
 │   └── TopViewport (SubViewport)      top content
 └── BottomContainer
@@ -18,7 +21,7 @@ touch back to base coordinates (`ScreenPresenter._to_scene_space`).
 
 ## Device profiles
 
-`DeviceProfile` (`data/schema/device_profile.gd`, presets in `data/devices/`) describes a device:
+`DeviceProfile` (`addons/dual_screen/profiles/device_profile.gd`, presets in `addons/dual_screen/profiles/devices/`) describes a device:
 
 | Field | What |
 |---|---|
@@ -29,7 +32,7 @@ touch back to base coordinates (`ScreenPresenter._to_scene_space`).
 | `model_names` | `OS.get_model_name()` values that select it automatically |
 
 `Screens` picks: saved choice in `user://dual_screen.cfg`, else model name match, else
-`dual_screen/default_profile`. `scenes/settings/device_settings.tscn` switches profile and calibrates gap and
+`dual_screen/default_profile`. `addons/dual_screen/settings/device_settings.tscn` switches profile and calibrates gap and
 offset live (`Screens.set_layout()`, `Screens.save_profile()`).
 
 Desk coordinates (`DeviceProfile.rect_mm()`): millimetres, origin at the bottom screen's top-left corner, y down. The
@@ -72,8 +75,8 @@ without going through `change_scene()`.
 
 ## Android second display
 
-`addons/dual_screen_android/` hands `bin/*.aar` to Gradle exports. Source in `android/plugin/` (Kotlin), build with
-`cd android/plugin && ./gradlew copyToAddon`.
+`addons/dual_screen/android/` hands `bin/*.aar` to Gradle exports. Source in `android/plugin_src/` (Kotlin), build
+with `cd addons/dual_screen/android/plugin_src && ./gradlew copyToAddon`.
 
 - `DualScreenPlugin`: Godot singleton `DualScreenAndroid`. Opens a `Presentation` on the other display. It is
   `FLAG_NOT_FOCUSABLE`, so the gamepad stays with Godot. Touch there comes back as `second_touch` (base pixels).
@@ -107,9 +110,9 @@ Each example is one folder in `examples/`:
 |---|---|
 | `tools/make_hanzi_deck.gd` | `data/hanzi/*.tsv` to `.tres` decks |
 | `tools/subset_fonts.py` | cuts the CJK fonts to the decks' characters (`uv run --with fonttools --with brotli`) |
-| `tools/screenshot.gd` | renders a scene in the stacked layout to PNG (needs a display): `--scene= --out= --frames= --press=` |
+| `addons/dual_screen/tools/screenshot.gd` | renders a scene in the stacked layout to PNG (needs a display): `--scene= --out= --frames= --press=` |
 
 ## Tests
 
-`tests/run_tests.gd` (headless, so always `SINGLE`). `tests/fixtures/dual_fixture.tscn` is a minimal DualScene.
+`addons/dual_screen/testing/run_tests.gd` (headless, so always `SINGLE`). `tests/fixtures/dual_fixture.tscn` is a minimal DualScene.
 `test_examples.gd` opens every launcher entry and fails on any engine or script error.

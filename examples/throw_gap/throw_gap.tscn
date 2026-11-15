@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3]
 
-[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="PackedScene" path="res://addons/dual_screen/dual_scene/dual_scene.tscn" id="1_base"]
 [ext_resource type="Script" path="res://examples/throw_gap/throw_gap.gd" id="2_script"]
-[ext_resource type="Script" path="res://ui/components/fps_label.gd" id="3_fps"]
+[ext_resource type="Script" path="res://addons/dual_screen/ui/fps_label.gd" id="3_fps"]
 
 [node name="ThrowGap" instance=ExtResource("1_base")]
 script = ExtResource("2_script")

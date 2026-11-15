@@ -31,7 +31,6 @@ EX_SPRITE_STRESS_TITLE,Sprite stress,Charge sprites
 EX_SPRITE_STRESS_DESC,"Moving sprites on both screens. Switch the second screen transport and the redraw mode, read fps per screen.","Des sprites sur les deux écrans. Change le transport du second écran et le mode de rendu, lis les fps par écran."
 EX_DEVICE_SETTINGS_TITLE,Device settings,Réglages de la console
 EX_DEVICE_SETTINGS_DESC,"Pick the device and line the screens up: move the lines until they continue straight across the hinge.","Choisis la console et aligne les écrans : bouge les lignes jusqu'à ce qu'elles continuent droit à travers la charnière."
-FPS_LABEL,%d fps,%d fps
 HELLO_TOP,Top screen 上,Écran du haut 上
 HELLO_BOTTOM,Bottom screen 下,Écran du bas 下
 HELLO_HINT,Q / Select: swap.   H / Start: home.,Q / Select : échanger.   H / Start : accueil.
@@ -42,7 +41,6 @@ INPUT_SENSORS,"Accel %s\nGyro %s\nGravity %s","Accél %s\nGyro %s\nGravité %s"
 INPUT_VIBRATE,Vibrate,Vibrer
 COMMON_RESET,Reset,Réinitialiser
 COMMON_ROLL,Roll,Lancer
-COMMON_SAVE,Save,Enregistrer
 THROW_TILT,Tilt: %s,Inclinaison : %s
 THROW_INFO,"Gap %.0f mm. Throw %.0f mm/s, peak %.0f mm. Crossing %d ms","Écart %.0f mm. Lancer %.0f mm/s, sommet %.0f mm. Traversée %d ms"
 THROW_HINT,"Grab the ball on either screen, flick it.","Attrape la balle sur un écran, lance-la."
@@ -63,11 +61,6 @@ SHADER_TOP_LESS,Top -,Haut -
 SHADER_TOP_MORE,Top +,Haut +
 SHADER_BOTTOM_LESS,Bottom -,Bas -
 SHADER_BOTTOM_MORE,Bottom +,Bas +
-SETTINGS_HELP,"Open the device flat. Change the gap until the blue lines run straight across the hinge.","Ouvre la console à plat. Règle l'écart jusqu'à ce que les lignes bleues traversent la charnière tout droit."
-SETTINGS_DEVICE,Device: %s,Console : %s
-SETTINGS_GAP,Gap: %.1f mm,Écart : %.1f mm
-SETTINGS_OFFSET,Offset: %.1f mm,Décalage : %.1f mm
-SETTINGS_SAVED,Saved.,Enregistré.
 TWO_CAM_STEERING,Stick: %s,Stick : %s
 TWO_CAM_CAMERA,camera,caméra
 TWO_CAM_MAP,map,carte
