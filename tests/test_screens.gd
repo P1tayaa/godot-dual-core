@@ -96,9 +96,30 @@ func test_presenter_touch_with_pixel_scale() -> void:
 	for down: bool in [true, false]:
 		var touch: InputEventScreenTouch = InputEventScreenTouch.new()
 		touch.pressed = down
-		# 20 base pixels into the button = 40 texture pixels at pixel_scale 2.
-		touch.position = (presenter.size - Vector2(scene.bottom_viewport.size)) / 2.0 + Vector2(40, 40)
+		# Base (50, 30) is on the button = texture (100, 60) at pixel_scale 2; unconverted, (100, 60) would miss it.
+		touch.position = (presenter.size - Vector2(scene.bottom_viewport.size)) / 2.0 + Vector2(100, 60)
 		presenter._gui_input(touch)
 		await frames(1)
 	ok(pressed[0], "button at base coordinates pressed through a 2x presenter")
 	scene.set_external(false)
+
+
+func test_stacked_touch_with_pixel_scale() -> void:
+	var scene: DualScene = FIXTURE.instantiate() as DualScene
+	scene.pixel_scale = 2
+	tree.root.add_child(scene)
+	_nodes.append(scene)
+	await frames(2)
+	eq(scene.bottom_viewport.size, Screens.screen_size(DualScene.Screen.BOTTOM) * 2, "stacked bottom renders at 2x")
+	var button: Button = scene.get_node("%BottomButton") as Button
+	var pressed: Array[bool] = [false]
+	button.pressed.connect(func() -> void: pressed[0] = true)
+	# Through the real container path: base (50, 30) on the button = (100, 60) into the 2x container.
+	var at: Vector2 = scene.bottom_container.get_global_rect().position + Vector2(100, 60)
+	for down: bool in [true, false]:
+		var touch: InputEventScreenTouch = InputEventScreenTouch.new()
+		touch.pressed = down
+		touch.position = at
+		Input.parse_input_event(touch)
+		await frames(1)
+	ok(pressed[0], "button at base coordinates pressed through a 2x stacked container")
