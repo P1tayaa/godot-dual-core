@@ -34,7 +34,8 @@ func _ready() -> void:
 		_bottom_sprites.append(_add_sprite(%BottomSprites, texture, base - start))
 	_transport_button.pressed.connect(_on_transport_pressed)
 	_redraw_button.pressed.connect(_on_redraw_pressed)
-	%TouchArea.gui_input.connect(_on_touch_area_input)
+	%TouchArea.gui_input.connect(_on_touch_area_input.bind(_touch_dot))
+	%TopTouchArea.gui_input.connect(_on_touch_area_input.bind(%TopTouchDot))
 	%SecondTimer.timeout.connect(_on_second)
 	_update_buttons()
 
@@ -87,9 +88,9 @@ func _on_redraw_pressed() -> void:
 	_update_buttons()
 
 
-func _on_touch_area_input(event: InputEvent) -> void:
+func _on_touch_area_input(event: InputEvent, dot: ColorRect) -> void:
 	if event is InputEventScreenTouch or event is InputEventScreenDrag:
-		_touch_dot.position = (event as InputEventFromWindow).position - _touch_dot.size / 2.0
+		dot.position = (event as InputEventFromWindow).position - dot.size / 2.0
 
 
 func _update_buttons() -> void:

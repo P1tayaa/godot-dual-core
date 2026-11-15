@@ -57,7 +57,7 @@ SCENE3D_SPIN,Spin: %s,Rotation : %s
 SCENE3D_MULTIMESH,MultiMesh: %s,MultiMesh : %s
 HUNTER_SCORE,Targets: %d / %d,Cibles : %d / %d
 HUNTER_HINT,"Drag: aim. Tap or A: fire.","Glisse : viser. Touche ou A : tirer."
-TWO_CAM_HINT,Tap the map to move the robot.,Touche la carte pour déplacer le robot.
+TWO_CAM_HINT,"Tap the map to move the robot. C / Y: stick mode.","Touche la carte pour déplacer le robot. C / Y : mode du stick."
 SHADER_LEVEL,"Top work %d, bottom work %d","Travail haut %d, bas %d"
 SHADER_TOP_LESS,Top -,Haut -
 SHADER_TOP_MORE,Top +,Haut +
@@ -68,3 +68,6 @@ SETTINGS_DEVICE,Device: %s,Console : %s
 SETTINGS_GAP,Gap: %.1f mm,Écart : %.1f mm
 SETTINGS_OFFSET,Offset: %.1f mm,Décalage : %.1f mm
 SETTINGS_SAVED,Saved.,Enregistré.
+TWO_CAM_STEERING,Stick: %s,Stick : %s
+TWO_CAM_CAMERA,camera,caméra
+TWO_CAM_MAP,map,carte

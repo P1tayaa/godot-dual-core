@@ -2,7 +2,10 @@ class_name TwoCameras
 extends DualScene
 ## One 3D world seen by two cameras: the bottom viewport borrows the top viewport's World3D. Top: chase camera.
 ## Bottom: orthographic map. Tap the map: a ray from the map camera hits the ground plane, the robot walks there.
-## Left stick / arrows also drive the robot.
+## Left stick / arrows also drive the robot, either relative to the chase camera (CAMERA) or to the map (MAP).
+## The bottom button or `toggle_mode` (C / Y) switches.
+
+enum Steering { CAMERA, MAP }
 
 const SPEED: float = 5.0
 const TURN: float = 8.0
@@ -10,6 +13,7 @@ const CHASE_OFFSET: Vector3 = Vector3(0, 4, 7)
 
 var _target: Vector3 = Vector3.ZERO
 var _has_target: bool = false
+var _steering: Steering = Steering.CAMERA
 
 @onready var _robot: Node3D = %Robot
 @onready var _chase: Camera3D = %ChaseCamera
@@ -22,12 +26,31 @@ func _ready() -> void:
 	# find_world_3d(): with own_world_3d the world is internal, the world_3d property stays null.
 	bottom_viewport.world_3d = top_viewport.find_world_3d()
 	%MapTouch.gui_input.connect(_on_map_input)
+	%SteeringButton.pressed.connect(_toggle_steering)
 	_marker.visible = false
+	_refresh_button()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("toggle_mode"):
+		_toggle_steering()
+
+
+func _toggle_steering() -> void:
+	_steering = Steering.MAP if _steering == Steering.CAMERA else Steering.CAMERA
+	_refresh_button()
+
+
+func _refresh_button() -> void:
+	%SteeringButton.text = tr("TWO_CAM_STEERING") % tr("TWO_CAM_" + Steering.keys()[_steering])
 
 
 func _process(delta: float) -> void:
 	var stick: Vector2 = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction: Vector3 = Vector3(stick.x, 0.0, stick.y)
+	if _steering == Steering.CAMERA:
+		# Stick up = where the chase camera looks, flattened on the ground.
+		direction = Basis(Vector3.UP, _chase.global_rotation.y) * direction
 	if direction.length() > 0.1:
 		_has_target = false
 		_marker.visible = false
