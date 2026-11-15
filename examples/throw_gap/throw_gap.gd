@@ -7,9 +7,12 @@ extends DualScene
 
 const BALL_RADIUS_MM: float = 4.0
 const GRAB_RADIUS_MM: float = 14.0
-const WALL_MM: float = 20.0
-const GRAVITY_MM_S2: float = 3000.0 # ~0.3 g: tabletop feel at this scale
+const WALL_MM: float = 60.0
+const GRAVITY_MM_S2: float = 2000.0 # ~0.2 g: a ball rolling on a tilted table, not falling
 const TILT_SCALE: float = 300.0 # mm/s² per m/s² of real gravity
+const MAX_SPEED_MM_S: float = 2500.0 # faster would tunnel through the walls at 60 physics steps per second
+
+enum Crossing { ON_BOTTOM, IN_GAP, COUNTED }
 
 var _ball: RigidBody2D
 var _grabbed: bool = false
@@ -18,7 +21,15 @@ var _last_world: Vector2 = Vector2.ZERO
 var _last_time: float = 0.0
 var _velocity: Vector2 = Vector2.ZERO
 var _tilt: bool = false
-var _left_bottom_at: float = -1.0
+var _throw_velocity: Vector2 = Vector2.ZERO
+var _grab_target: Vector2 = Vector2.ZERO
+var _last_throw_speed: float = 0.0
+var _peak_y: float = 0.0
+var _tracking_peak: bool = false
+var _press_world: Vector2 = Vector2.ZERO
+var _press_time: float = 0.0
+var _crossing: Crossing = Crossing.ON_BOTTOM
+var _gap_entered_at: float = 0.0
 var _last_crossing_ms: int = 0
 
 @onready var _info: Label = %Info
@@ -43,20 +54,39 @@ func _ready() -> void:
 	_refresh_labels()
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	if _grabbed:
+		# Held: the ball stays a rigid body and is steered onto the finger, so the physics server owns its position.
+		_ball.linear_velocity = ((_grab_target - _ball.global_position) / delta).limit_length(MAX_SPEED_MM_S)
+	elif _throw_velocity != Vector2.ZERO:
+		_ball.linear_velocity = _throw_velocity.limit_length(MAX_SPEED_MM_S)
+		_last_throw_speed = _ball.linear_velocity.length()
+		_peak_y = _ball.global_position.y
+		_tracking_peak = true
+		_throw_velocity = Vector2.ZERO
 	if _tilt:
 		var g: Vector3 = Input.get_gravity()
 		_set_gravity(Vector2(-g.x, g.y) * TILT_SCALE)
-	# Crossing time: from leaving the bottom screen's top edge to entering the top screen.
 	var y: float = _ball.global_position.y
+	if _tracking_peak:
+		_peak_y = minf(_peak_y, y)
+		if _ball.linear_velocity.y > 0.0:
+			_tracking_peak = false
+			_refresh_labels()
+	_track_crossing(y)
+
+
+## Time spent in the hinge gap: from the bottom screen's top edge (y = 0) to the top screen's lower edge (-gap).
+func _track_crossing(y: float) -> void:
 	var now: float = Time.get_ticks_msec() / 1000.0
 	if y > 0.0:
-		_left_bottom_at = -1.0
-	elif _left_bottom_at < 0.0 and _ball.linear_velocity.y < 0.0:
-		_left_bottom_at = now
-	if _left_bottom_at >= 0.0 and y < -Screens.profile.gap_mm:
-		_last_crossing_ms = int((now - _left_bottom_at) * 1000.0)
-		_left_bottom_at = -2.0 # counted, wait until it is back on the bottom screen
+		_crossing = Crossing.ON_BOTTOM
+	elif _crossing == Crossing.ON_BOTTOM:
+		_crossing = Crossing.IN_GAP
+		_gap_entered_at = now
+	elif _crossing == Crossing.IN_GAP and y < -Screens.profile.gap_mm:
+		_crossing = Crossing.COUNTED
+		_last_crossing_ms = int((now - _gap_entered_at) * 1000.0)
 		_refresh_labels()
 
 
@@ -70,17 +100,23 @@ func _on_touch(event: InputEvent, screen: Screen) -> void:
 		if touch.pressed and world.distance_to(_ball.global_position) < GRAB_RADIUS_MM:
 			_grabbed = true
 			_grab_screen = screen
-			_ball.freeze = true
+			_grab_target = world
+			_ball.gravity_scale = 0.0
 			_velocity = Vector2.ZERO
+			_press_world = world
+			_press_time = now
 		elif not touch.pressed and _grabbed and screen == _grab_screen:
 			_grabbed = false
-			_ball.freeze = false
-			_ball.linear_velocity = _velocity
+			_ball.gravity_scale = 1.0
+			# A quick flick may send no drag events between press and release: use the whole gesture then.
+			if _velocity.length() < 1.0:
+				_velocity = (world - _press_world) / maxf(now - _press_time, 0.016)
+			_throw_velocity = _velocity
 	elif _grabbed and screen == _grab_screen:
 		var dt: float = maxf(now - _last_time, 0.001)
 		# Smoothed flick speed in mm/s.
 		_velocity = _velocity.lerp((world - _last_world) / dt, 0.5)
-		_ball.global_position = world
+		_grab_target = world
 	_last_world = world
 	_last_time = now
 
@@ -88,10 +124,12 @@ func _on_touch(event: InputEvent, screen: Screen) -> void:
 func _reset_ball() -> void:
 	var bottom: Rect2 = Screens.profile.rect_mm(Screen.BOTTOM)
 	_grabbed = false
-	_ball.freeze = true
-	_ball.global_position = Vector2(bottom.get_center().x, bottom.end.y - 15.0)
+	_ball.gravity_scale = 1.0
 	_ball.linear_velocity = Vector2.ZERO
-	_ball.freeze = false
+	# Teleport through the physics server: it owns the position of a rigid body.
+	var at: Vector2 = Vector2(bottom.get_center().x, bottom.end.y - 15.0)
+	PhysicsServer2D.body_set_state(_ball.get_rid(), PhysicsServer2D.BODY_STATE_TRANSFORM, Transform2D(0.0, at))
+	_ball.global_position = at
 
 
 func _toggle_tilt() -> void:
@@ -109,14 +147,14 @@ func _set_gravity(gravity: Vector2) -> void:
 
 
 func _refresh_labels() -> void:
-	_info.text = tr("THROW_INFO") % [Screens.profile.gap_mm, _last_crossing_ms]
+	# Peak as height above the bottom screen's top edge: above gap_mm means it reached the top screen.
+	_info.text = tr("THROW_INFO") % [Screens.profile.gap_mm, _last_throw_speed, -_peak_y, _last_crossing_ms]
 	_tilt_button.text = tr("THROW_TILT") % ("ON" if _tilt else "OFF")
 
 
 func _make_ball() -> RigidBody2D:
 	var ball: RigidBody2D = RigidBody2D.new()
 	ball.continuous_cd = RigidBody2D.CCD_MODE_CAST_SHAPE
-	ball.freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
 	var material: PhysicsMaterial = PhysicsMaterial.new()
 	material.bounce = 0.6
 	ball.physics_material_override = material

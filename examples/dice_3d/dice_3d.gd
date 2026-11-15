@@ -133,7 +133,8 @@ func _make_die() -> RigidBody3D:
 	die.add_child(mesh)
 	for axis: Vector3 in DiceRules.D6_FACES:
 		var label: Label3D = Label3D.new()
-		label.text = str(DiceRules.D6_FACES[axis])
+		var value: int = DiceRules.D6_FACES[axis]
+		label.text = "6." if value == 6 else str(value) # the dot tells 6 from an upside-down 9
 		label.font = _font
 		label.font_size = 48
 		label.outline_size = 0

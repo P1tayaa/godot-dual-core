@@ -44,7 +44,7 @@ COMMON_RESET,Reset,Réinitialiser
 COMMON_ROLL,Roll,Lancer
 COMMON_SAVE,Save,Enregistrer
 THROW_TILT,Tilt: %s,Inclinaison : %s
-THROW_INFO,"Gap %.1f mm. Last crossing: %d ms","Écart %.1f mm. Dernière traversée : %d ms"
+THROW_INFO,"Gap %.0f mm. Throw %.0f mm/s, peak %.0f mm. Crossing %d ms","Écart %.0f mm. Lancer %.0f mm/s, sommet %.0f mm. Traversée %d ms"
 THROW_HINT,"Grab the ball on either screen, flick it.","Attrape la balle sur un écran, lance-la."
 DICE_RESULT,%d,%d
 DICE_HISTORY,Last: %s,Derniers : %s

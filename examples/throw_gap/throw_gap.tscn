@@ -22,9 +22,10 @@ anchor_bottom = 1.0
 unique_name_in_owner = true
 offset_left = 4.0
 offset_top = 2.0
-offset_right = 316.0
-offset_bottom = 18.0
+offset_right = 260.0
+offset_bottom = 34.0
 mouse_filter = 2
+autowrap_mode = 3
 
 [node name="Fps" type="Label" parent="TopContainer/TopViewport/TopUi" index="2"]
 anchors_preset = 1
@@ -67,6 +68,7 @@ offset_right = -4.0
 offset_bottom = -4.0
 grow_horizontal = 0
 grow_vertical = 0
+mouse_filter = 2
 alignment = 2
 
 [node name="TiltButton" type="Button" parent="BottomContainer/BottomViewport/BottomUi/Buttons" index="0"]
