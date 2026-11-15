@@ -35,6 +35,7 @@ func _ready() -> void:
 		_open_desktop_window(base)
 	elif mode == Mode.ANDROID:
 		_android_display = AndroidDisplay.new()
+		_android_display.name = "AndroidDisplay"
 		add_child(_android_display)
 
 

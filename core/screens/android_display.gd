@@ -22,6 +22,7 @@ var _plugin: Object
 var _scene: DualScene
 var _screen: DualScene.Screen = DualScene.Screen.BOTTOM
 var _dirty: bool = true
+var _gl_handle: int = 0
 
 
 ## True on Android with the plugin exported and a second display connected.
@@ -70,20 +71,36 @@ func _refresh() -> void:
 	if _scene == null or not is_instance_valid(_scene):
 		_plugin.call("setTexture", 0, false)
 		return
-	var rid: RID = _scene.viewport(_screen).get_texture().get_rid()
-	var handle: int = RenderingServer.texture_get_native_handle(rid)
-	print("DualScreen: GL texture handle %d" % handle)
+	_gl_handle = 0 # asked for again after the next frame: the render target may not exist yet
+
+
+func _send_gl_texture() -> void:
+	# Not get_texture().get_rid(): that is a proxy whose GL id is copied before the render target exists (0).
+	var rid: RID = RenderingServer.viewport_get_texture(_scene.viewport(_screen).get_viewport_rid())
+	_gl_handle = RenderingServer.texture_get_native_handle(rid)
+	if _gl_handle == 0:
+		return
 	# Godot's render targets are stored bottom-up in GL.
-	_plugin.call("setTexture", handle, true)
+	_plugin.call("setTexture", _gl_handle, true)
+	_plugin.call("setContinuous", _scene.redraw_mode(_screen) == DualScene.Redraw.ALWAYS)
 
 
 func _on_redraw_requested(screen: DualScene.Screen) -> void:
-	if screen == _screen:
-		_dirty = true
+	if screen != _screen:
+		return
+	_dirty = true
+	if transport == Transport.GL:
+		# Also called when the redraw mode changes, so keep the plugin's mode in step.
+		_plugin.call("setContinuous", _scene.redraw_mode(_screen) == DualScene.Redraw.ALWAYS)
+		_plugin.call("requestDraw")
 
 
 func _on_frame_post_draw() -> void:
-	if transport != Transport.READBACK or _scene == null or not is_instance_valid(_scene):
+	if _scene == null or not is_instance_valid(_scene):
+		return
+	if transport == Transport.GL:
+		if _gl_handle == 0:
+			_send_gl_texture()
 		return
 	if _scene.redraw_mode(_screen) == DualScene.Redraw.ON_CHANGE and not _dirty:
 		return

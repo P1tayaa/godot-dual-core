@@ -33,8 +33,8 @@ window/handheld/orientation=0
 
 screen/base_size=Vector2i(320, 240)
 screen/mode="auto"
-screen/main_display_is_top=true
-android/transport="readback"
+screen/main_display_is_top=false
+android/transport="gl"
 
 [editor_plugins]
 

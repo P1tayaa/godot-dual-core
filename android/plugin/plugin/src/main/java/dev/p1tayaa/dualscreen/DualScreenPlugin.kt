@@ -38,6 +38,8 @@ class DualScreenPlugin(godot: Godot) : GodotPlugin(godot) {
 
     @Volatile private var textureId: Int = 0
     @Volatile private var flipY: Boolean = true
+    @Volatile private var continuous: Boolean = true
+    @Volatile private var pendingDraws: Int = 0
 
     override fun getPluginName(): String = "DualScreenAndroid"
 
@@ -91,6 +93,19 @@ class DualScreenPlugin(godot: Godot) : GodotPlugin(godot) {
         flipY = flip
     }
 
+    /** GL: true draws every Godot frame (an ALWAYS screen), false draws only after requestDraw() (ON_CHANGE). */
+    @UsedByGodot
+    fun setContinuous(on: Boolean) {
+        continuous = on
+        pendingDraws = 2
+    }
+
+    /** GL: draw the texture on the next frames (the screen changed). Two frames to cover a late buffer. */
+    @UsedByGodot
+    fun requestDraw() {
+        pendingDraws = 2
+    }
+
     /** Frames that actually reached the second display since open (both transports). */
     @UsedByGodot
     fun framesShown(): Int = presentation?.framesShown ?: 0
@@ -102,8 +117,12 @@ class DualScreenPlugin(godot: Godot) : GodotPlugin(godot) {
     override fun onGLDrawFrame(gl: GL10?) {
         val p: SecondScreenPresentation = presentation ?: return
         if (p.transport != TRANSPORT_GL || textureId == 0) return
+        if (!continuous && pendingDraws <= 0) return
         val target = p.glTarget() ?: return
-        if (blitter.draw(target, textureId, flipY)) p.framesShown += 1
+        if (blitter.draw(target, textureId, flipY)) {
+            p.framesShown += 1
+            if (!continuous) pendingDraws -= 1
+        }
     }
 
     override fun onMainDestroy() {

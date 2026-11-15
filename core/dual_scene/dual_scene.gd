@@ -71,6 +71,11 @@ func set_stacked_order(swapped: bool) -> void:
 func set_external(external: bool) -> void:
 	top_container.visible = not external
 	bottom_container.visible = not external
+	# The scene root covers the window: let touch through to the presenter drawn under it.
+	mouse_filter = Control.MOUSE_FILTER_IGNORE if external else Control.MOUSE_FILTER_PASS
+	# A container sets its viewport to UPDATE_DISABLED when hidden (ALWAYS when shown): put our modes back.
+	top_viewport.render_target_update_mode = _update_mode(top_redraw)
+	bottom_viewport.render_target_update_mode = _update_mode(bottom_redraw)
 
 
 func _input(event: InputEvent) -> void:
