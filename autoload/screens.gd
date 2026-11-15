@@ -18,6 +18,7 @@ var swapped: bool = false
 var _main_presenter: ScreenPresenter
 var _second_window: Window
 var _second_presenter: ScreenPresenter
+var _android_display: AndroidDisplay
 
 
 func _ready() -> void:
@@ -32,6 +33,9 @@ func _ready() -> void:
 	add_child(_main_presenter)
 	if mode == Mode.DESKTOP:
 		_open_desktop_window(base)
+	elif mode == Mode.ANDROID:
+		_android_display = AndroidDisplay.new()
+		add_child(_android_display)
 
 
 ## Frees the current scene and shows the one at `path`.
@@ -101,6 +105,8 @@ func _apply_layout() -> void:
 	_main_presenter.show_screen(current, on_main)
 	if _second_presenter != null:
 		_second_presenter.show_screen(current, on_second)
+	if _android_display != null:
+		_android_display.show_screen(current, on_second)
 
 
 func _on_scene_exiting(scene: DualScene) -> void:
@@ -111,6 +117,8 @@ func _on_scene_exiting(scene: DualScene) -> void:
 		_main_presenter.show_screen(null, DualScene.Screen.TOP)
 	if _second_presenter != null:
 		_second_presenter.show_screen(null, DualScene.Screen.BOTTOM)
+	if _android_display != null:
+		_android_display.show_screen(null, DualScene.Screen.BOTTOM)
 
 
 func _pick_mode() -> Mode:
@@ -123,10 +131,12 @@ func _pick_mode() -> Mode:
 			return Mode.SINGLE
 		"desktop":
 			return Mode.DESKTOP
-	# auto (ANDROID comes with the plugin)
+	# auto
+	if OS.get_name() == "Android":
+		return Mode.ANDROID if AndroidDisplay.available() else Mode.SINGLE
 	if Engine.is_embedded_in_editor():
 		return Mode.SINGLE
-	if DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS) and OS.get_name() != "Android":
+	if DisplayServer.has_feature(DisplayServer.FEATURE_SUBWINDOWS):
 		return Mode.DESKTOP
 	return Mode.SINGLE
 
