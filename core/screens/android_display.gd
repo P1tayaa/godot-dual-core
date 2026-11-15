@@ -23,6 +23,7 @@ var _scene: DualScene
 var _screen: DualScene.Screen = DualScene.Screen.BOTTOM
 var _dirty: bool = true
 var _gl_handle: int = 0
+var _opened_size: Vector2i = Vector2i.ZERO
 
 
 ## True on Android with the plugin exported and a second display connected.
@@ -41,10 +42,11 @@ func _ready() -> void:
 	open(Transport.GL if setting == "gl" else Transport.READBACK)
 
 
+## (Re)opens the second display for the current screen's size. Also used to switch transport.
 func open(new_transport: Transport) -> void:
 	transport = new_transport
-	var base: Vector2i = DualScene.base_size()
-	_plugin.call("open", base.x, base.y, int(transport))
+	_opened_size = Screens.screen_size(_screen) if _scene == null else _scene.viewport(_screen).size
+	_plugin.call("open", _opened_size.x, _opened_size.y, int(transport))
 	_refresh()
 
 
@@ -55,6 +57,9 @@ func show_screen(scene: DualScene, screen: DualScene.Screen) -> void:
 	_screen = screen
 	if scene != null:
 		scene.redraw_requested.connect(_on_redraw_requested)
+		if scene.viewport(screen).size != _opened_size:
+			open(transport) # a swap on a device whose screens differ in size
+			return
 	_refresh()
 
 

@@ -2,9 +2,14 @@ class_name DualScene
 extends VBoxContainer
 ## Base of every screen scene: a top and a bottom SubViewport, stacked like a DS in the editor and with F6.
 ## Put top content under %TopViewport and bottom content under %BottomViewport. `Screens` decides where each one
-## is shown (stacked in one window, two desktop windows, or the two displays of a handheld).
+## is shown (stacked in one window, two desktop windows, or the two displays of a handheld). Each screen's size comes
+## from the device profile (`Screens.screen_size()`).
+##
+## Physical world: `use_physical_world_2d()` makes both viewports look into ONE 2D world measured in millimetres,
+## each through a camera placed where its real panel is (gap and offset included). Something thrown off the bottom
+## screen spends real time crossing the hinge before it shows up on the top screen.
 
-## An ON_CHANGE screen will draw one more frame (the Android second display uses it to know when to copy).
+## An ON_CHANGE screen will draw one more frame (the Android second display uses it to know when to draw).
 signal redraw_requested(screen: Screen)
 
 enum Screen { TOP, BOTTOM }
@@ -14,25 +19,22 @@ enum Redraw { ALWAYS, ON_CHANGE }
 @export var top_redraw: Redraw = Redraw.ALWAYS
 @export var bottom_redraw: Redraw = Redraw.ALWAYS
 
+var _physical_cameras: Array[Camera2D] = []
+
 @onready var top_container: SubViewportContainer = %TopContainer
 @onready var bottom_container: SubViewportContainer = %BottomContainer
 @onready var top_viewport: SubViewport = %TopViewport
 @onready var bottom_viewport: SubViewport = %BottomViewport
 
 
-## Size of one screen in game pixels, from the `dual_screen/screen/base_size` project setting.
-static func base_size() -> Vector2i:
-	return ProjectSettings.get_setting("dual_screen/screen/base_size", Vector2i(320, 240))
-
-
 func _ready() -> void:
-	var base: Vector2i = DualScene.base_size()
-	top_container.custom_minimum_size = Vector2(base)
-	bottom_container.custom_minimum_size = Vector2(base)
-	top_viewport.size = base
-	bottom_viewport.size = base
-	top_viewport.render_target_update_mode = _update_mode(top_redraw)
-	bottom_viewport.render_target_update_mode = _update_mode(bottom_redraw)
+	for screen: Screen in [Screen.TOP, Screen.BOTTOM]:
+		var size_px: Vector2i = Screens.screen_size(screen)
+		var container: SubViewportContainer = top_container if screen == Screen.TOP else bottom_container
+		container.custom_minimum_size = Vector2(size_px)
+		container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		viewport(screen).size = size_px
+		viewport(screen).render_target_update_mode = _update_mode(redraw_mode(screen))
 	Screens.attach(self)
 
 
@@ -61,6 +63,25 @@ func set_redraw(screen: Screen, mode: Redraw) -> void:
 	redraw_requested.emit(screen)
 
 
+## Both viewports share the top viewport's World2D (one canvas, one physics space), in millimetres. Put world nodes
+## under either viewport; put per-screen UI in a CanvasLayer (a layer is drawn only by its own viewport).
+func use_physical_world_2d() -> void:
+	bottom_viewport.world_2d = top_viewport.world_2d
+	for screen: Screen in [Screen.TOP, Screen.BOTTOM]:
+		var camera: Camera2D = Camera2D.new()
+		camera.name = "PhysicalCamera"
+		viewport(screen).add_child(camera)
+		camera.make_current()
+		_physical_cameras.append(camera)
+	_place_physical_cameras()
+	Screens.layout_changed.connect(_place_physical_cameras)
+
+
+## A screen position (game pixels) to physical world millimetres. Needs use_physical_world_2d().
+func screen_to_world(screen: Screen, position_px: Vector2) -> Vector2:
+	return viewport(screen).get_canvas_transform().affine_inverse() * position_px
+
+
 ## Stacked layout only: puts the bottom screen first when swapped.
 func set_stacked_order(swapped: bool) -> void:
 	move_child(bottom_container, 0 if swapped else 1)
@@ -76,6 +97,15 @@ func set_external(external: bool) -> void:
 	# A container sets its viewport to UPDATE_DISABLED when hidden (ALWAYS when shown): put our modes back.
 	top_viewport.render_target_update_mode = _update_mode(top_redraw)
 	bottom_viewport.render_target_update_mode = _update_mode(bottom_redraw)
+
+
+func _place_physical_cameras() -> void:
+	for i: int in _physical_cameras.size():
+		var screen: Screen = Screen.TOP if i == 0 else Screen.BOTTOM
+		var camera: Camera2D = _physical_cameras[i]
+		camera.position = Screens.profile.rect_mm(screen).get_center()
+		camera.zoom = Vector2.ONE * Screens.profile.spec(screen).px_per_mm()
+		request_redraw(screen)
 
 
 func _input(event: InputEvent) -> void:

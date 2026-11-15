@@ -1,4 +1,4 @@
-class_name BenchScene
+class_name SpriteStress
 extends DualScene
 ## Device bench for the second-screen transports. Both screens animate SPRITE_COUNT sprites.
 ## Bottom buttons: switch transport (Android), switch bottom redraw mode. Labels: fps per screen, once a second.
@@ -24,7 +24,7 @@ var _last_frames: int = 0
 func _ready() -> void:
 	super._ready()
 	var texture: ImageTexture = _make_texture()
-	var base: Vector2 = Vector2(DualScene.base_size())
+	var base: Vector2 = Vector2(Screens.screen_size(Screen.TOP))
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 7
 	for i: int in SPRITE_COUNT:
@@ -40,7 +40,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	var base: Vector2 = Vector2(DualScene.base_size())
+	var base: Vector2 = Vector2(Screens.screen_size(Screen.TOP))
 	for i: int in SPRITE_COUNT:
 		var p: Vector2 = _top_sprites[i].position + _velocities[i] * delta
 		if p.x < 0.0 or p.x > base.x:

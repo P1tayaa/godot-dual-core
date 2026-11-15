@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ExampleEntry" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/schema/example_entry.gd" id="1_entry"]
+
+[resource]
+script = ExtResource("1_entry")
+title_key = "EX_HUNTER_TITLE"
+description_key = "EX_HUNTER_DESC"
+category = 3
+scene = "res://examples/hunter/hunter.tscn"
+order = 60

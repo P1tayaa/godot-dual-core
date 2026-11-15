@@ -15,8 +15,8 @@ func test_scene_attaches_with_base_size() -> void:
 	await frames(1)
 	eq(Screens.current, scene, "current scene")
 	eq(Screens.mode, ScreensService.Mode.SINGLE, "headless mode")
-	eq(scene.top_viewport.size, DualScene.base_size(), "top size")
-	eq(scene.bottom_viewport.size, DualScene.base_size(), "bottom size")
+	eq(scene.top_viewport.size, Screens.screen_size(DualScene.Screen.TOP), "top size")
+	eq(scene.bottom_viewport.size, Screens.screen_size(DualScene.Screen.BOTTOM), "bottom size")
 
 
 func test_on_change_screen_redraws_on_request() -> void:
@@ -71,7 +71,8 @@ func test_presenter_sends_touch_to_its_screen() -> void:
 	for down: bool in [true, false]:
 		var touch: InputEventScreenTouch = InputEventScreenTouch.new()
 		touch.pressed = down
-		touch.position = Vector2(20, 20)
+		# The texture is centred in the presenter: aim 20 px into it.
+		touch.position = (presenter.size - Vector2(scene.bottom_viewport.size)) / 2.0 + Vector2(20, 20)
 		presenter._gui_input(touch)
 		await frames(1)
 	ok(pressed[0], "bottom button pressed through presenter")

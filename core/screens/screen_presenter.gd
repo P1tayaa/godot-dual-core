@@ -1,7 +1,8 @@
 class_name ScreenPresenter
 extends TextureRect
 ## Shows one screen of a DualScene on a surface (the main window, or the desktop bottom window) and sends the
-## touch input it receives into that screen's viewport. Same size as the screen, so positions map 1:1.
+## touch input it receives into that screen's viewport. Centred at 1:1 (a swap on a device with two screen sizes
+## letterboxes the smaller one).
 ## Only touch is forwarded: a viewport outside a container has no hover, so mouse clicks would not reach buttons.
 ## On desktop the mouse emulates touch (project setting), on Android touch is native.
 
@@ -12,7 +13,7 @@ var _screen: DualScene.Screen = DualScene.Screen.TOP
 func _init() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	stretch_mode = TextureRect.STRETCH_KEEP
+	stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 
@@ -31,7 +32,13 @@ func _gui_input(event: InputEvent) -> void:
 		return
 	if not (event is InputEventScreenTouch or event is InputEventScreenDrag):
 		return
-	# _gui_input positions are already local to this rect, which is the viewport's own space.
-	_scene.viewport(_screen).push_input(event, true)
+	# _gui_input positions are local to this rect; the texture sits centred in it.
+	var shifted: InputEventFromWindow = event.duplicate() as InputEventFromWindow
+	var margin: Vector2 = (size - Vector2(_scene.viewport(_screen).size)) / 2.0
+	if shifted is InputEventScreenTouch:
+		(shifted as InputEventScreenTouch).position -= margin
+	else:
+		(shifted as InputEventScreenDrag).position -= margin
+	_scene.viewport(_screen).push_input(shifted, true)
 	_scene.request_redraw(_screen)
 	accept_event()

@@ -4,3 +4,30 @@ HOME_PICK,Pick a tool,Choisis un outil
 HOME_HINT,Touch or A to open,Touche ou A pour ouvrir
 COMMON_BACK,Back,Retour
 COMMON_SWAP,Swap,Échanger
+HOME_DEVICE,"%s, gap %.1f mm, %s","%s, écart %.1f mm, %s"
+CAT_BASICS,Basics,Bases
+CAT_INPUT,Input,Entrées
+CAT_PHYSICS,Physics,Physique
+CAT_RENDER,Rendering,Rendu
+CAT_STRESS,Stress test,Test de charge
+CAT_SETTINGS,Settings,Réglages
+EX_HELLO_DUAL_TITLE,Hello dual,Bonjour double
+EX_HELLO_DUAL_DESC,"Smallest DualScene: one label per screen, swap with Q or Select, H or Start goes home.","La plus petite DualScene : un texte par écran, Q ou Select échange, H ou Start revient à l'accueil."
+EX_INPUT_TEST_TITLE,Input test,Test des entrées
+EX_INPUT_TEST_DESC,"Touch dots on both screens (multitouch), gamepad buttons and sticks, accelerometer and gyroscope, vibration.","Points de contact sur les deux écrans (multitouch), boutons et sticks, accéléromètre et gyroscope, vibration."
+EX_THROW_GAP_TITLE,Throw across the gap,Lancer par-dessus la charnière
+EX_THROW_GAP_DESC,"One physics world in millimetres across both screens. Flick a ball up from the bottom screen: it crosses the real hinge gap before it reaches the top.","Un seul monde physique en millimètres sur les deux écrans. Lance une balle depuis l'écran du bas : elle traverse la vraie charnière avant d'arriver en haut."
+EX_DICE_3D_TITLE,3D dice,Dés 3D
+EX_DICE_3D_DESC,"Physics dice in 3D on the top screen. Flick on the bottom screen, press A or shake the device to roll.","Dés physiques en 3D sur l'écran du haut. Glisse sur l'écran du bas, appuie sur A ou secoue la console pour lancer."
+EX_SCENE_3D_TITLE,3D scene,Scène 3D
+EX_SCENE_3D_DESC,"A lit 3D scene on the top screen. The bottom screen changes the object count, shadows and animation, and shows fps.","Une scène 3D éclairée en haut. L'écran du bas règle le nombre d'objets, les ombres et l'animation, et affiche les fps."
+EX_HUNTER_TITLE,Hunter (3D + 2D),Chasseur (3D + 2D)
+EX_HUNTER_DESC,"Top: first person 3D. Bottom: 2D radar, drag to aim like Metroid Prime Hunters. Left stick or arrows move.","Haut : 3D à la première personne. Bas : radar 2D, glisse pour viser comme Metroid Prime Hunters. Stick gauche ou flèches pour bouger."
+EX_TWO_CAMERAS_TITLE,Two cameras,Deux caméras
+EX_TWO_CAMERAS_DESC,"One 3D world, two cameras: chase view on top, map view on the bottom. Tap the map to send the robot there.","Un monde 3D, deux caméras : vue de poursuite en haut, carte en bas. Touche la carte pour y envoyer le robot."
+EX_SHADER_STRESS_TITLE,Shader stress,Charge shader
+EX_SHADER_STRESS_DESC,"A full screen shader on each screen. Raise the work per pixel until the device drops frames.","Un shader plein écran sur chaque écran. Augmente le travail par pixel jusqu'à ce que la console perde des images."
+EX_SPRITE_STRESS_TITLE,Sprite stress,Charge sprites
+EX_SPRITE_STRESS_DESC,"Moving sprites on both screens. Switch the second screen transport and the redraw mode, read fps per screen.","Des sprites sur les deux écrans. Change le transport du second écran et le mode de rendu, lis les fps par écran."
+EX_DEVICE_SETTINGS_TITLE,Device settings,Réglages de la console
+EX_DEVICE_SETTINGS_DESC,"Pick the device and line the screens up: move the lines until they continue straight across the hinge.","Choisis la console et aligne les écrans : bouge les lignes jusqu'à ce qu'elles continuent droit à travers la charnière."

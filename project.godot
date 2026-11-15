@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Godot Dual Core"
 config/description="Dual-screen core for Godot 4: two screens, one scene, fast on weak Android handhelds."
-run/main_scene="res://tools/bench/bench.tscn"
+run/main_scene="res://scenes/home/home.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]
@@ -27,13 +27,12 @@ window/size/window_width_override=640
 window/size/window_height_override=960
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
-window/handheld/orientation=0
 
 [dual_screen]
 
-screen/base_size=Vector2i(320, 240)
 screen/mode="auto"
-screen/main_display_is_top=false
+default_profile="res://data/devices/rg_ds.tres"
+home_scene="res://scenes/home/home.tscn"
 android/transport="gl"
 
 [editor_plugins]
@@ -47,6 +46,12 @@ theme/custom="res://ui/theme/main_theme.tres"
 
 [input]
 
+home={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":72,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":true,"script":null)
+]
+}
 swap_screens={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
@@ -64,9 +69,9 @@ locale/translations=PackedStringArray("res://i18n/strings.en.translation", "res:
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true

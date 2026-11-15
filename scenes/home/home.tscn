@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scenes/home/home.gd" id="2_home"]
+
+[node name="Home" instance=ExtResource("1_base")]
+script = ExtResource("2_home")
+top_redraw = 1
+bottom_redraw = 1
+
+[node name="TopPanel" type="PanelContainer" parent="TopContainer/TopViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Margin" type="MarginContainer" parent="TopContainer/TopViewport/TopPanel" index="0"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="Column" type="VBoxContainer" parent="TopContainer/TopViewport/TopPanel/Margin" index="0"]
+layout_mode = 2
+
+[node name="Category" type="Label" parent="TopContainer/TopViewport/TopPanel/Margin/Column" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.706, 0.329, 1)
+text = "CAT_BASICS"
+
+[node name="Title" type="Label" parent="TopContainer/TopViewport/TopPanel/Margin/Column" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "APP_TITLE"
+
+[node name="Description" type="Label" parent="TopContainer/TopViewport/TopPanel/Margin/Column" index="2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = "HOME_PICK"
+autowrap_mode = 3
+
+[node name="Device" type="Label" parent="TopContainer/TopViewport/TopPanel/Margin/Column" index="3"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.541, 0.561, 0.639, 1)
+text = "HOME_HINT"
+
+[node name="BottomPanel" type="PanelContainer" parent="BottomContainer/BottomViewport" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Scroll" type="ScrollContainer" parent="BottomContainer/BottomViewport/BottomPanel" index="0"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="List" type="VBoxContainer" parent="BottomContainer/BottomViewport/BottomPanel/Scroll" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
