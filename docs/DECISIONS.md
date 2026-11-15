@@ -13,3 +13,8 @@ One row per decision. Newest last.
 | 2026-11-15 | Android second screen transport: **GL** (Godot's viewport texture drawn on display 2 with Godot's EGL context). READBACK kept as fallback setting | Bench, 40 sprites per screen: GL 60/60 fps at ~55% CPU, READBACK 54-61 fps at ~120% CPU. GL + ON_CHANGE screen: ~34% CPU |
 | 2026-11-15 | GL uses `RenderingServer.viewport_get_texture()`, not `get_texture().get_rid()` | The ViewportTexture RID is a proxy whose GL id is 0 |
 | 2026-11-15 | Pointer input is touch only, mouse emulates touch | A viewport outside its container has no hover, mouse clicks never reach it |
+| 2026-11-15 | Device profiles (`data/devices/*.tres`) replace the single base size setting; each screen has its own size | Devices differ (AYN Thor: 1920x1080 top, 1240x1080 bottom). Gap and offset are data, calibrated on the device |
+| 2026-11-15 | Physical 2D world in millimetres shared by both screens, cameras placed like the real panels | A thrown object crosses the real hinge gap. RG DS check: 415 mm/s flick peaks 27 mm above the bottom screen, 79 ms in the 22 mm gap |
+| 2026-11-15 | Grabbed physics bodies are steered by velocity, never frozen and moved | Moving a frozen RigidBody2D between physics steps was undone by the next step on the device (input arrives off-step) |
+| 2026-11-15 | Containers over a touch area use `mouse_filter = IGNORE` | A full-width button row swallowed touches on the area under it |
+| 2026-11-15 | First second of a 3D example drops to ~16-23 fps on the RG DS, then 60 | Shader compilation on first use (Mali). Measure fps after a warm-up |

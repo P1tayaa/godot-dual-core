@@ -10,28 +10,59 @@ DualScene (VBoxContainer)              every screen scene inherits core/dual_sce
     └── BottomViewport                 bottom content
 ```
 
-Both viewports are `dual_screen/screen/base_size` (default 320x240), nearest filter, pixel snap.
+Each viewport takes its size from the device profile (`Screens.screen_size(screen)`), nearest filter, pixel snap.
 Each has a redraw mode: `ALWAYS` or `ON_CHANGE` (one frame after input or `request_redraw()`).
+
+## Device profiles
+
+`DeviceProfile` (`data/schema/device_profile.gd`, presets in `data/devices/`) describes a device:
+
+| Field | What |
+|---|---|
+| `top`, `bottom` (`ScreenSpec`) | panel pixels, visible size in mm, game base size (scaled by an integer to the panel) |
+| `gap_mm` | lower edge of the top screen to upper edge of the bottom screen, device opened flat |
+| `offset_mm` | horizontal shift of the top screen's centre |
+| `main_display_is_top` | Android: is the display the app starts on the top screen |
+| `model_names` | `OS.get_model_name()` values that select it automatically |
+
+`Screens` picks: saved choice in `user://dual_screen.cfg`, else model name match, else
+`dual_screen/default_profile`. `scenes/settings/device_settings.tscn` switches profile and calibrates gap and
+offset live (`Screens.set_layout()`, `Screens.save_profile()`).
+
+Desk coordinates (`DeviceProfile.rect_mm()`): millimetres, origin at the bottom screen's top-left corner, y down. The
+top screen sits above, `gap_mm` higher, centred plus `offset_mm`.
+
+## Physical world
+
+`DualScene.use_physical_world_2d()`: the bottom viewport takes the top viewport's World2D (one canvas, one physics
+space) and each viewport gets a Camera2D placed on its screen's `rect_mm`, zoomed to that screen's pixels per mm.
+World units are millimetres. Objects crossing between screens spend real time in the gap. Per-screen UI goes in a
+CanvasLayer (drawn only by its own viewport). `screen_to_world()` turns a touch into world mm. Cameras move on
+`Screens.layout_changed`. `WorldGrid` draws the mm grid, screen outlines and calibration diagonals.
+
+For 3D, a viewport with `own_world_3d` keeps its world internal: share it with
+`other.world_3d = viewport.find_world_3d()` (the `world_3d` property is null there).
 
 ## Screens autoload
 
-`Screens` (`ScreensService`) owns the current `DualScene` and picks a mode at start:
+`Screens` (`ScreensService`) owns the current `DualScene` and the profile, and picks a mode at start:
 
 | Mode | When | Top / bottom shown by |
 |---|---|---|
-| `SINGLE` | headless, web, phones, game embedded in the editor, `--screens=single` | the scene's own containers, stacked (window 320x480) |
-| `DESKTOP` | desktop with native subwindows | `ScreenPresenter` in the main window + one in a second OS window |
-| `ANDROID` | Android with the dual screen plugin and a second display | presenter on display 0 + `AndroidDisplay` on the second display |
+| `SINGLE` | headless, web, phones, game embedded in the editor, `--screens=single` | the scene's own containers, stacked and centred |
+| `DESKTOP` | desktop with native subwindows | `ScreenPresenter` in the main window (top) + one in a second OS window |
+| `ANDROID` | Android with the plugin and a second display | presenter on the app's display + `AndroidDisplay` on the other |
 
-In `DESKTOP` and `ANDROID` the containers hide (`set_external(true)`) and the viewports keep rendering.
-A `ScreenPresenter` is a TextureRect of one viewport's texture, sized like the screen, that forwards touch into it.
+In `DESKTOP` and `ANDROID` the containers hide (`set_external(true)`), the viewports keep rendering, and the scene
+root ignores pointer input so touch reaches the presenters. Each surface keeps the size of the screen it shows
+unswapped; after a swap on a device with two screen sizes the content is letterboxed.
 
 Input:
 
-- Touch: the surface it lands on decides the screen (container in `SINGLE`, presenter otherwise).
+- Touch: the surface it lands on decides the screen (container in `SINGLE`, presenter or plugin otherwise).
+  Pointer input is touch only, the mouse emulates touch on desktop.
 - Keys and gamepad: `Screens.push_keys()` sends them to both screens (containers do the same in `SINGLE`).
-- `swap_screens` (Q, Select): `Screens.swap()`. Stacked: reorders the containers. Two surfaces: presenters trade screens.
-- `dual_screen/screen/main_display_is_top` says whether the main surface (main window, display 0) is the top screen.
+- `swap_screens` (Q, Select): swap. `home` (H, Start): back to the launcher (`dual_screen/home_scene`).
 
 Scenes register themselves: `DualScene._ready()` calls `Screens.attach(self)`, so the main scene and F6 runs work
 without going through `change_scene()`.
@@ -48,15 +79,31 @@ without going through `change_scene()`.
   current with Godot's own EGL context, draws one quad (nearest, integer scale, letterbox), swaps, restores all GL state.
   ALWAYS screens draw every frame, ON_CHANGE screens only after `requestDraw()`.
 - READBACK transport (fallback): `get_image()` after each redraw, bytes to a Bitmap. About twice the CPU.
-- On the RG DS display 0 is the bottom screen, so `main_display_is_top=false`.
 
-`tools/bench/bench.tscn`: 40 sprites per screen, T switches transport, R switches the bottom redraw mode, logs
-`BENCH ...` lines (`adb logcat -s godot`).
+## Launcher and examples
+
+`scenes/home/` lists every `ExampleEntry` in `data/examples/` (title and description keys, category, scene, order).
+Each example is one folder in `examples/`:
+
+| Example | Shows |
+|---|---|
+| `hello_dual` | the smallest DualScene, no script |
+| `input_test` | touch dots on both screens, gamepad, accelerometer / gyroscope / gravity, vibration |
+| `throw_gap` | physical world: flick a ball across the real hinge gap, peak height and crossing time |
+| `dice_3d` | 3D physics dice on top, flick / A / shake on the bottom, top redraws only while dice move |
+| `scene_3d` | 3D stress: object count, nodes vs MultiMesh, shadows, draw calls |
+| `hunter` | first person 3D on top, 2D radar aim pad on the bottom (Metroid Prime Hunters layout) |
+| `two_cameras` | one World3D, chase camera on top, orthographic map on the bottom, tap to move |
+| `shader_stress` | fragment shader per screen, iterations per screen |
+| `sprite_stress` | sprites on both screens, second screen transport and redraw mode switches |
+
+## Tools
+
+| Tool | What |
+|---|---|
+| `tools/screenshot.gd` | renders a scene in the stacked layout to PNG (needs a display): `--scene= --out= --frames= --press=` |
 
 ## Tests
 
 `tests/run_tests.gd` (headless, so always `SINGLE`). `tests/fixtures/dual_fixture.tscn` is a minimal DualScene.
-
-## Not done yet (TODO)
-
-- Home launcher, examples.
+`test_examples.gd` opens every launcher entry and fails on any engine or script error.

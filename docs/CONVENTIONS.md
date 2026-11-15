@@ -33,6 +33,8 @@ The why behind these rules is in `docs/PHILOSOPHY.md`.
 
 ## Screens
 
+- Sizes come from the device profile: `Screens.screen_size(screen)`. Do not hardcode 320x240; anchor UI to the
+  viewport edges so a 412x360 or 640x360 screen also works.
 - Every screen scene inherits `core/dual_scene/dual_scene.tscn`. Top content goes under `%TopViewport`, bottom content
   under `%BottomViewport`.
 - Set `top_redraw` / `bottom_redraw` to `ON_CHANGE` for screens that only change on input or data. Call
@@ -52,6 +54,10 @@ The why behind these rules is in `docs/PHILOSOPHY.md`.
 Pointer input is **touch only**: handle `InputEventScreenTouch` / `InputEventScreenDrag`, never mouse events. The mouse
 emulates touch on desktop (`input_devices/pointing/emulate_touch_from_mouse`). A viewport shown outside its container
 has no hover, so mouse clicks would not reach it; touch always does.
+
+Containers and labels drawn over a touch area set `mouse_filter = IGNORE` (2): by default a container catches the
+touch and its siblings underneath never see it. Physics bodies picked up by a finger are steered with
+`linear_velocity`, not frozen and moved (see DECISIONS).
 
 Only InputMap actions, never raw keys: `ui_*` for menus, `swap_screens`, then one action per tool verb (`roll`,
 `reveal`). Every action has a keyboard and a joypad event. Debug keys are letters, not F-keys.
