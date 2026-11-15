@@ -49,6 +49,10 @@ The why behind these rules is in `docs/PHILOSOPHY.md`.
 
 ## Input
 
+Pointer input is **touch only**: handle `InputEventScreenTouch` / `InputEventScreenDrag`, never mouse events. The mouse
+emulates touch on desktop (`input_devices/pointing/emulate_touch_from_mouse`). A viewport shown outside its container
+has no hover, so mouse clicks would not reach it; touch always does.
+
 Only InputMap actions, never raw keys: `ui_*` for menus, `swap_screens`, then one action per tool verb (`roll`,
 `reveal`). Every action has a keyboard and a joypad event. Debug keys are letters, not F-keys.
 

@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://core/dual_scene/dual_scene.tscn" id="1_base"]
+
+[node name="DualFixture" instance=ExtResource("1_base")]
+
+[node name="TopLabel" type="Label" parent="TopContainer/TopViewport" index="0"]
+unique_name_in_owner = true
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 160.0
+offset_bottom = 24.0
+text = "TOP 上"
+
+[node name="BottomButton" type="Button" parent="BottomContainer/BottomViewport" index="0"]
+unique_name_in_owner = true
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 108.0
+offset_bottom = 40.0
+text = "BOTTOM 下"
