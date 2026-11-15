@@ -18,3 +18,7 @@ One row per decision. Newest last.
 | 2026-11-15 | Grabbed physics bodies are steered by velocity, never frozen and moved | Moving a frozen RigidBody2D between physics steps was undone by the next step on the device (input arrives off-step) |
 | 2026-11-15 | Containers over a touch area use `mouse_filter = IGNORE` | A full-width button row swallowed touches on the area under it |
 | 2026-11-15 | First second of a 3D example drops to ~16-23 fps on the RG DS, then 60 | Shader compilation on first use (Mali). Measure fps after a warm-up |
+| 2026-11-15 | `DualScene.pixel_scale`: a scene can render at 2x (native 640x480 on the RG DS) and keep base-size coordinates (`size_2d_override`) | Hanzi need the panel's real pixels. Pushed touch is scaled by hand: `push_input` does not apply the 2D override |
+| 2026-11-15 | MSDF text is drawn with `texture_filter = LINEAR` on its node | Viewports default to nearest for pixel art; a nearest-sampled MSDF atlas gives staircase edges at large sizes |
+| 2026-11-15 | Hanzi fonts: LXGW WenKai (kaiti, textbook stroke shapes) for hanzi, pinyin and meanings; Ma Shan Zheng (brush) as the alternative hanzi font. Both OFL, subset to the decks' characters | 26 MB + 6 MB down to 77 KB + 23 KB. Ma Shan Zheng has no tone-mark letters, so pinyin always uses WenKai |
+| 2026-11-15 | Decks are TSV files (`data/hanzi/*.tsv`) turned into `.tres` by `tools/make_hanzi_deck.gd`; tones come from the pinyin marks (`HanziRules.tones`) | Editing a deck is editing a spreadsheet; no tone data to keep in sync |

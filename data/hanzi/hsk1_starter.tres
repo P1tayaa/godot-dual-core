@@ -1,0 +1,234 @@
+[gd_resource type="Resource" script_class="HanziDeck" format=3]
+
+[ext_resource type="Script" path="res://data/schema/hanzi_card.gd" id="1_l7lbj"]
+[ext_resource type="Script" path="res://data/schema/hanzi_deck.gd" id="2_eea2x"]
+
+[sub_resource type="Resource" id="Resource_qm5kb"]
+script = ExtResource("1_l7lbj")
+hanzi = "我"
+pinyin = "wǒ"
+meaning_en = "I, me"
+meaning_fr = "je, moi"
+
+[sub_resource type="Resource" id="Resource_jhlcc"]
+script = ExtResource("1_l7lbj")
+hanzi = "你"
+pinyin = "nǐ"
+meaning_en = "you"
+meaning_fr = "tu, toi"
+
+[sub_resource type="Resource" id="Resource_q4jvx"]
+script = ExtResource("1_l7lbj")
+hanzi = "他"
+pinyin = "tā"
+meaning_en = "he, him"
+meaning_fr = "il, lui"
+
+[sub_resource type="Resource" id="Resource_knqhd"]
+script = ExtResource("1_l7lbj")
+hanzi = "她"
+pinyin = "tā"
+meaning_en = "she, her"
+meaning_fr = "elle"
+
+[sub_resource type="Resource" id="Resource_1qp70"]
+script = ExtResource("1_l7lbj")
+hanzi = "好"
+pinyin = "hǎo"
+meaning_en = "good, well"
+meaning_fr = "bon, bien"
+
+[sub_resource type="Resource" id="Resource_cr1lw"]
+script = ExtResource("1_l7lbj")
+hanzi = "是"
+pinyin = "shì"
+meaning_en = "to be"
+meaning_fr = "être"
+
+[sub_resource type="Resource" id="Resource_agkgh"]
+script = ExtResource("1_l7lbj")
+hanzi = "不"
+pinyin = "bù"
+meaning_en = "not, no"
+meaning_fr = "ne... pas, non"
+
+[sub_resource type="Resource" id="Resource_iokjh"]
+script = ExtResource("1_l7lbj")
+hanzi = "人"
+pinyin = "rén"
+meaning_en = "person"
+meaning_fr = "personne"
+
+[sub_resource type="Resource" id="Resource_epjrm"]
+script = ExtResource("1_l7lbj")
+hanzi = "大"
+pinyin = "dà"
+meaning_en = "big"
+meaning_fr = "grand"
+
+[sub_resource type="Resource" id="Resource_b4cks"]
+script = ExtResource("1_l7lbj")
+hanzi = "小"
+pinyin = "xiǎo"
+meaning_en = "small"
+meaning_fr = "petit"
+
+[sub_resource type="Resource" id="Resource_2uvgd"]
+script = ExtResource("1_l7lbj")
+hanzi = "中国"
+pinyin = "zhōng guó"
+meaning_en = "China"
+meaning_fr = "Chine"
+
+[sub_resource type="Resource" id="Resource_j2i77"]
+script = ExtResource("1_l7lbj")
+hanzi = "水"
+pinyin = "shuǐ"
+meaning_en = "water"
+meaning_fr = "eau"
+
+[sub_resource type="Resource" id="Resource_brujj"]
+script = ExtResource("1_l7lbj")
+hanzi = "吃"
+pinyin = "chī"
+meaning_en = "to eat"
+meaning_fr = "manger"
+
+[sub_resource type="Resource" id="Resource_neax4"]
+script = ExtResource("1_l7lbj")
+hanzi = "喝"
+pinyin = "hē"
+meaning_en = "to drink"
+meaning_fr = "boire"
+
+[sub_resource type="Resource" id="Resource_4hu87"]
+script = ExtResource("1_l7lbj")
+hanzi = "看"
+pinyin = "kàn"
+meaning_en = "to look, to watch"
+meaning_fr = "regarder"
+
+[sub_resource type="Resource" id="Resource_yjgdf"]
+script = ExtResource("1_l7lbj")
+hanzi = "说"
+pinyin = "shuō"
+meaning_en = "to speak"
+meaning_fr = "parler"
+
+[sub_resource type="Resource" id="Resource_wkv7a"]
+script = ExtResource("1_l7lbj")
+hanzi = "学习"
+pinyin = "xué xí"
+meaning_en = "to study"
+meaning_fr = "étudier"
+
+[sub_resource type="Resource" id="Resource_48fr3"]
+script = ExtResource("1_l7lbj")
+hanzi = "老师"
+pinyin = "lǎo shī"
+meaning_en = "teacher"
+meaning_fr = "professeur"
+
+[sub_resource type="Resource" id="Resource_xtm6g"]
+script = ExtResource("1_l7lbj")
+hanzi = "朋友"
+pinyin = "péng you"
+meaning_en = "friend"
+meaning_fr = "ami"
+
+[sub_resource type="Resource" id="Resource_pty0c"]
+script = ExtResource("1_l7lbj")
+hanzi = "谢谢"
+pinyin = "xiè xie"
+meaning_en = "thank you"
+meaning_fr = "merci"
+
+[sub_resource type="Resource" id="Resource_rrlfu"]
+script = ExtResource("1_l7lbj")
+hanzi = "再见"
+pinyin = "zài jiàn"
+meaning_en = "goodbye"
+meaning_fr = "au revoir"
+
+[sub_resource type="Resource" id="Resource_aahmu"]
+script = ExtResource("1_l7lbj")
+hanzi = "一"
+pinyin = "yī"
+meaning_en = "one"
+meaning_fr = "un"
+
+[sub_resource type="Resource" id="Resource_r3w0y"]
+script = ExtResource("1_l7lbj")
+hanzi = "二"
+pinyin = "èr"
+meaning_en = "two"
+meaning_fr = "deux"
+
+[sub_resource type="Resource" id="Resource_i4iu1"]
+script = ExtResource("1_l7lbj")
+hanzi = "三"
+pinyin = "sān"
+meaning_en = "three"
+meaning_fr = "trois"
+
+[sub_resource type="Resource" id="Resource_8q6m4"]
+script = ExtResource("1_l7lbj")
+hanzi = "猫"
+pinyin = "māo"
+meaning_en = "cat"
+meaning_fr = "chat"
+
+[sub_resource type="Resource" id="Resource_xo4l0"]
+script = ExtResource("1_l7lbj")
+hanzi = "狗"
+pinyin = "gǒu"
+meaning_en = "dog"
+meaning_fr = "chien"
+
+[sub_resource type="Resource" id="Resource_pbxok"]
+script = ExtResource("1_l7lbj")
+hanzi = "茶"
+pinyin = "chá"
+meaning_en = "tea"
+meaning_fr = "thé"
+
+[sub_resource type="Resource" id="Resource_utw6a"]
+script = ExtResource("1_l7lbj")
+hanzi = "书"
+pinyin = "shū"
+meaning_en = "book"
+meaning_fr = "livre"
+
+[sub_resource type="Resource" id="Resource_mxmln"]
+script = ExtResource("1_l7lbj")
+hanzi = "家"
+pinyin = "jiā"
+meaning_en = "home, family"
+meaning_fr = "maison, famille"
+
+[sub_resource type="Resource" id="Resource_32ph1"]
+script = ExtResource("1_l7lbj")
+hanzi = "今天"
+pinyin = "jīn tiān"
+meaning_en = "today"
+meaning_fr = "aujourd'hui"
+
+[sub_resource type="Resource" id="Resource_8oxqp"]
+script = ExtResource("1_l7lbj")
+hanzi = "明天"
+pinyin = "míng tiān"
+meaning_en = "tomorrow"
+meaning_fr = "demain"
+
+[sub_resource type="Resource" id="Resource_07l55"]
+script = ExtResource("1_l7lbj")
+hanzi = "龙"
+pinyin = "lóng"
+meaning_en = "dragon"
+meaning_fr = "dragon"
+
+[resource]
+script = ExtResource("2_eea2x")
+id = &"hsk1_starter"
+title = "Hsk 1 Starter"
+cards = Array[ExtResource("1_l7lbj")]([SubResource("Resource_qm5kb"), SubResource("Resource_jhlcc"), SubResource("Resource_q4jvx"), SubResource("Resource_knqhd"), SubResource("Resource_1qp70"), SubResource("Resource_cr1lw"), SubResource("Resource_agkgh"), SubResource("Resource_iokjh"), SubResource("Resource_epjrm"), SubResource("Resource_b4cks"), SubResource("Resource_2uvgd"), SubResource("Resource_j2i77"), SubResource("Resource_brujj"), SubResource("Resource_neax4"), SubResource("Resource_4hu87"), SubResource("Resource_yjgdf"), SubResource("Resource_wkv7a"), SubResource("Resource_48fr3"), SubResource("Resource_xtm6g"), SubResource("Resource_pty0c"), SubResource("Resource_rrlfu"), SubResource("Resource_aahmu"), SubResource("Resource_r3w0y"), SubResource("Resource_i4iu1"), SubResource("Resource_8q6m4"), SubResource("Resource_xo4l0"), SubResource("Resource_pbxok"), SubResource("Resource_utw6a"), SubResource("Resource_mxmln"), SubResource("Resource_32ph1"), SubResource("Resource_8oxqp"), SubResource("Resource_07l55")])

@@ -35,6 +35,9 @@ The why behind these rules is in `docs/PHILOSOPHY.md`.
 
 - Sizes come from the device profile: `Screens.screen_size(screen)`. Do not hardcode 320x240; anchor UI to the
   viewport edges so a 412x360 or 640x360 screen also works.
+- Text that must stay sharp at any size (hanzi, titles) uses an MSDF font and `texture_filter = LINEAR` on the node
+  that draws it. Pixel fonts and pixel art stay nearest. A scene that needs the panel's full pixels sets
+  `pixel_scale = 2`.
 - Every screen scene inherits `core/dual_scene/dual_scene.tscn`. Top content goes under `%TopViewport`, bottom content
   under `%BottomViewport`.
 - Set `top_redraw` / `bottom_redraw` to `ON_CHANGE` for screens that only change on input or data. Call

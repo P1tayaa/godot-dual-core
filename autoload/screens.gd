@@ -26,6 +26,7 @@ var _main_presenter: ScreenPresenter
 var _second_window: Window
 var _second_presenter: ScreenPresenter
 var _android_display: AndroidDisplay
+var _pixel_scale: int = 1
 
 
 func _ready() -> void:
@@ -70,6 +71,9 @@ func attach(scene: DualScene) -> void:
 	current = scene
 	scene.tree_exiting.connect(_on_scene_exiting.bind(scene))
 	scene.set_external(mode != Mode.SINGLE)
+	if mode != Mode.SINGLE and scene.pixel_scale != _pixel_scale:
+		_pixel_scale = scene.pixel_scale
+		_size_surfaces()
 	_apply_layout()
 	scene_changed.emit(scene)
 
@@ -171,11 +175,12 @@ func _size_surfaces() -> void:
 		return
 	var main_size: Vector2i = screen_size(_main_display_role())
 	var second_size: Vector2i = screen_size(_other(_main_display_role()))
-	window.content_scale_size = main_size
+	# A scene with pixel_scale renders bigger viewports: give the windows the same pixels so presenters stay 1:1.
+	window.content_scale_size = main_size * _pixel_scale
 	if mode == Mode.DESKTOP:
 		window.size = main_size * 2
 		_second_window.size = second_size * 2
-		_second_window.content_scale_size = second_size
+		_second_window.content_scale_size = second_size * _pixel_scale
 		var below: bool = _main_display_role() == DualScene.Screen.TOP
 		_second_window.position = window.position + Vector2i(0, (main_size.y * 2 + 40) * (1 if below else -1))
 

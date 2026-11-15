@@ -133,5 +133,6 @@ func _on_second_touch(action: int, index: int, x: float, y: float) -> void:
 		touch.pressed = action == TOUCH_DOWN
 		touch.position = Vector2(x, y)
 		event = touch
-	_scene.viewport(_screen).push_input(event, true)
+	var target: SubViewport = _scene.viewport(_screen)
+	target.push_input(ScreenPresenter._to_scene_space(event, target, Vector2.ZERO), true)
 	_scene.request_redraw(_screen)

@@ -76,3 +76,29 @@ func test_presenter_sends_touch_to_its_screen() -> void:
 		presenter._gui_input(touch)
 		await frames(1)
 	ok(pressed[0], "bottom button pressed through presenter")
+
+
+func test_presenter_touch_with_pixel_scale() -> void:
+	var scene: DualScene = FIXTURE.instantiate() as DualScene
+	scene.pixel_scale = 2
+	tree.root.add_child(scene)
+	_nodes.append(scene)
+	await frames(1)
+	scene.set_external(true) # what DESKTOP / ANDROID do: viewports at 2x
+	eq(scene.bottom_viewport.size, Screens.screen_size(DualScene.Screen.BOTTOM) * 2, "bottom renders at 2x")
+	var button: Button = scene.get_node("%BottomButton") as Button
+	var pressed: Array[bool] = [false]
+	button.pressed.connect(func() -> void: pressed[0] = true)
+	var presenter: ScreenPresenter = ScreenPresenter.new()
+	tree.root.add_child(presenter)
+	_nodes.append(presenter)
+	presenter.show_screen(scene, DualScene.Screen.BOTTOM)
+	for down: bool in [true, false]:
+		var touch: InputEventScreenTouch = InputEventScreenTouch.new()
+		touch.pressed = down
+		# 20 base pixels into the button = 40 texture pixels at pixel_scale 2.
+		touch.position = (presenter.size - Vector2(scene.bottom_viewport.size)) / 2.0 + Vector2(40, 40)
+		presenter._gui_input(touch)
+		await frames(1)
+	ok(pressed[0], "button at base coordinates pressed through a 2x presenter")
+	scene.set_external(false)

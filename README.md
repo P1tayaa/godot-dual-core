@@ -53,4 +53,6 @@ The launcher lists them (see the table in `docs/ARCHITECTURE.md`). Each lives in
 
 - AYN Thor profile values are from memory, not checked on a device.
 - Measure the real RG DS hinge gap (22 mm is an estimate) and put it in `data/devices/rg_ds.tres`.
-- Tools from the plan: dice tray (DM), hanzi cards, potion brewing.
+- Tools from the plan: dice tray (DM), potion brewing.
+- Hanzi: writing pad, more decks (edit or add `data/hanzi/*.tsv`, then run `tools/make_hanzi_deck.gd` and
+  `tools/subset_fonts.py`).

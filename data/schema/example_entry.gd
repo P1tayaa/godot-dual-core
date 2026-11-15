@@ -2,7 +2,7 @@ class_name ExampleEntry
 extends Resource
 ## One entry of the launcher (scenes/home). Like Bevy's examples list: a scene, a category, what it shows.
 
-enum Category { BASICS, INPUT, PHYSICS, RENDER, STRESS, SETTINGS }
+enum Category { BASICS, INPUT, PHYSICS, RENDER, STRESS, SETTINGS, TOOLS }
 
 @export var title_key: String = ""
 @export var description_key: String = ""

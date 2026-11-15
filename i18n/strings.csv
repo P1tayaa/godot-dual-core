@@ -71,3 +71,10 @@ SETTINGS_SAVED,Saved.,Enregistré.
 TWO_CAM_STEERING,Stick: %s,Stick : %s
 TWO_CAM_CAMERA,camera,caméra
 TWO_CAM_MAP,map,carte
+CAT_TOOLS,Tools,Outils
+EX_HANZI_CARDS_TITLE,Hanzi cards,Cartes hanzi
+EX_HANZI_CARDS_DESC,"Flash cards with spaced repetition. Tap to turn a card, flick it up across the hinge if you knew it, down or sideways if not.","Cartes avec répétition espacée. Touche pour retourner, lance vers le haut par-dessus la charnière si tu savais, vers le bas ou le côté sinon."
+HANZI_HINT,"Tap: turn. Flick up: known. Down: again.","Touche : retourner. Haut : connue. Bas : encore."
+HANZI_FONT,Font,Police
+HANZI_STATS,"Known %d, again %d","Connues %d, encore %d"
+HANZI_BOXES,"Boxes  0:%d  1:%d  2:%d  3:%d  4:%d","Boîtes  0:%d  1:%d  2:%d  3:%d  4:%d"

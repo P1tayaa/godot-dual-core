@@ -12,6 +12,9 @@ DualScene (VBoxContainer)              every screen scene inherits core/dual_sce
 
 Each viewport takes its size from the device profile (`Screens.screen_size(screen)`), nearest filter, pixel snap.
 Each has a redraw mode: `ALWAYS` or `ON_CHANGE` (one frame after input or `request_redraw()`).
+`pixel_scale` (1-4) renders both viewports at that multiple outside the stacked layout, with `size_2d_override` keeping
+the scene's coordinates at base size. `Screens` sizes the windows to match, presenters and the Android display scale
+touch back to base coordinates (`ScreenPresenter._to_scene_space`).
 
 ## Device profiles
 
@@ -87,6 +90,7 @@ Each example is one folder in `examples/`:
 
 | Example | Shows |
 |---|---|
+| `hanzi_cards` | flash cards: tap to turn, flick up across the hinge = known, down = again; Leitner boxes, saved |
 | `hello_dual` | the smallest DualScene, no script |
 | `input_test` | touch dots on both screens, gamepad, accelerometer / gyroscope / gravity, vibration |
 | `throw_gap` | physical world: flick a ball across the real hinge gap, peak height and crossing time |
@@ -101,6 +105,8 @@ Each example is one folder in `examples/`:
 
 | Tool | What |
 |---|---|
+| `tools/make_hanzi_deck.gd` | `data/hanzi/*.tsv` to `.tres` decks |
+| `tools/subset_fonts.py` | cuts the CJK fonts to the decks' characters (`uv run --with fonttools --with brotli`) |
 | `tools/screenshot.gd` | renders a scene in the stacked layout to PNG (needs a display): `--scene= --out= --frames= --press=` |
 
 ## Tests
