@@ -1,0 +1,13 @@
+# Godot cache: never delete it locally (reimport is slow), just don't commit it
+.godot/
+
+# Android export
+android/build/
+android/plugin/**/build/
+android/plugin/.gradle/
+android/plugin/.kotlin/
+android/plugin/local.properties
+exports/
+*.apk
+*.aab
+export_credentials.cfg
