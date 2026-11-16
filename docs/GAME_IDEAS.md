@@ -12,8 +12,8 @@ on it, so the top can be the "players" screen and the bottom the "GM" screen.
 
 | Pack | What | Licence |
 |---|---|---|
-| Raven Fantasy (`~/Downloads/Raven Fantasy sprites/raven_fantasy`) | ~20 500 icons at 16 px (weapons, armour, potions, herbs, food, fishing, monsters, UI), 19 tilesets (dungeon, forest, village, farm, beach, cave, interiors, underworld, craft stations) | paid: copy only what a game uses, check before a public repo |
-| Roguelike sprites (`Godot-Jam-/addons/roguelike_sprites`) | 16 px characters, items, spells in ten themes | unchecked |
+| Raven Fantasy (Clockwork Raven Studios) | ~20 500 icons at 16 px (weapons, armour, potions, herbs, food, fishing, monsters, UI), 19 tilesets (dungeon, forest, village, farm, beach, cave, interiors, underworld, craft stations) | paid: copy only what a game uses, check before a public repo |
+| The Roguelike (Backterria) | 16 px characters, items, spells in ten themes | unchecked |
 | UI assets pack 2 | cooking and book UI (pots, knobs, cards) | unchecked |
 | KayKit Board Game Bits | 3D dice, tray, pawns, cards | CC0 |
 

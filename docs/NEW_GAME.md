@@ -3,8 +3,8 @@
 Games do not fork this project: they add the addon as a git submodule.
 
 ```bash
-mkdir ~/Projects/my-game && cd ~/Projects/my-game && git init
-git submodule add <godot-dual-screen url> addons/dual_screen
+mkdir my-game && cd my-game && git init
+git submodule add https://github.com/P1tayaa/godot-dual-screen.git addons/dual_screen
 ```
 
 1. Create the Godot project (Godot 4.7, Compatibility renderer), enable the Dual Screen plugin. It adds the `Screens`
@@ -18,7 +18,3 @@ git submodule add <godot-dual-screen url> addons/dual_screen
 
 Fixing the core from inside a game: commit in `addons/dual_screen`, push to the addon repo, then commit the new
 submodule pointer in the game. Other games pick it up with `git submodule update --remote addons/dual_screen`.
-
-Local setup note: while the addon repo only lives on disk, its `.gitmodules` URL is a local path and git needs
-`-c protocol.file.allow=always` for submodule commands. Switch to the GitHub URL once pushed:
-`git submodule set-url addons/dual_screen git@github.com:P1tayaa/godot-dual-screen.git`.
