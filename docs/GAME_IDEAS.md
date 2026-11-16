@@ -68,7 +68,7 @@ on it, so the top can be the "players" screen and the bottom the "GM" screen.
 - Hook: things fall across the hinge with the real gap delay.
 - Reuses: Hanzi Cards collections and `HanziRules.tones`. Good warm-up mode before a study session.
 
-### Brush dojo (M)
+### Brush dojo (M) (built: Hanzi Cards > Write)
 
 - Top: the character, stroke order animated stroke by stroke.
 - Bottom: write it with a finger; each stroke is checked for direction and order.
@@ -90,7 +90,7 @@ on it, so the top can be the "players" screen and the bottom the "GM" screen.
 - Assets: Raven skills and spells icons as card art, UI pack card frames.
 - Reuses: card physics from Hanzi Cards.
 
-### Cozy garden (L)
+### Cozy garden (L) (started: repo `cozy-garden`)
 
 - Top: the garden through the seasons.
 - Bottom: tools and seeds; plant by dragging, water by holding.
