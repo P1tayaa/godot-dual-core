@@ -7,7 +7,7 @@ The core is the `addons/dual_screen` submodule (repo `godot-dual-screen`); this 
 Clone with `git clone --recurse-submodules`, or run `git submodule update --init` after cloning.
 
 Read `addons/dual_screen/docs/PHILOSOPHY.md`, `addons/dual_screen/docs/CONVENTIONS.md` and `docs/ARCHITECTURE.md`
-first. Decisions and measurements are in `docs/DECISIONS.md`. New game on the core: `docs/NEW_GAME.md`.
+first. Decisions and measurements are in `docs/DECISIONS.md`. New game on the core: `docs/NEW_GAME.md`. Ideas for more games and widgets: `docs/GAME_IDEAS.md`.
 
 ## Requirements
 
